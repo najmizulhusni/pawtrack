@@ -44,7 +44,7 @@ const CAT_BREEDS = ['Kampung Cat', 'Persian', 'British Shorthair', 'Maine Coon',
 
 export default function Home({ onNavigate }) {
   const { theme, darkMode, cats, addCat, selectCat, activeCat, getCatAge, calculateAge, user } = useApp()
-  const [showAddCat, setShowAddCat] = useState(cats.length === 0) // Auto-show if no cats
+    const [showAddCat, setShowAddCat] = useState(false)
   const [newCat, setNewCat] = useState({ name: '', breed: 'Kampung Cat', birthdate: '', weight: '', gender: 'Male', color: '', vaccinated: false, neutered: false })
   const [currentMonth, setCurrentMonth] = useState(new Date())
   const [currentTime, setCurrentTime] = useState(new Date())
