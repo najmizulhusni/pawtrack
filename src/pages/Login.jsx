@@ -143,6 +143,7 @@ export default function Login({ onLogin }) {
               name: sanitizeInput(form.name),
               email: loginData.user.email,
               phone: sanitizeInput(form.phone),
+              isAdmin: profileData?.is_admin || false,
             })
             return
           }
@@ -206,6 +207,7 @@ export default function Login({ onLogin }) {
             name: data.user.user_metadata?.name || 'Pet Owner',
             email: data.user.email,
             phone: data.user.user_metadata?.phone || '',
+            isAdmin: profileData?.is_admin || false,
           })
         }
       }
