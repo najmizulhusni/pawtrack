@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react'
-import { auth } from '../lib/supabase'
+import { auth, supabase } from '../lib/supabase'
 import { 
   sanitizeInput, 
   isValidEmail, 
@@ -127,6 +127,19 @@ export default function Login({ onLogin }) {
         }
         
         if (data?.user) {
+          // Check if user profile exists (user must have completed signup)
+          const { data: profileData, error: profileError } = await supabase
+            .from('profiles')
+            .select('*')
+            .eq('user_id', data.user.id)
+            .single()
+          
+          if (profileError || !profileData) {
+            // User exists in auth but hasn't completed signup
+            await auth.signOut()
+            throw new Error('Please complete your signup first. Your account was not fully created.')
+          }
+          
           clearRateLimit(rateLimitKey)
           onLogin({
             id: data.user.id,
