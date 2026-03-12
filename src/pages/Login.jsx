@@ -400,9 +400,10 @@ export default function Login({ onLogin }) {
               <span onClick={() => { setIsSignUp(!isSignUp); setError('') }} style={{ color: '#4f46e5', fontWeight: '600', cursor: 'pointer' }}>{isSignUp ? 'Sign In' : 'Sign Up'}</span>
             </p>
 
-            {/* Admin Login */}
-            <div style={{ marginTop: '20px', textAlign: 'center' }}>
-              <button onClick={() => onLogin({ isAdmin: true })} style={{ background: 'none', border: 'none', color: '#64748b', fontSize: '12px', cursor: 'pointer', textDecoration: 'underline' }}>Login as Admin</button>
+            {/* Add User Profile for Admin */}
+            <div style={{ marginTop: '20px', textAlign: 'center', paddingTop: '20px', borderTop: `1px solid ${theme.border}` }}>
+              <p style={{ fontSize: '12px', color: '#64748b', margin: '0 0 12px' }}>Admin Setup</p>
+              <button onClick={() => { setIsSignUp(true); setError('') }} style={{ background: 'none', border: 'none', color: '#4f46e5', fontSize: '13px', cursor: 'pointer', fontWeight: '600', textDecoration: 'underline' }}>Create Admin Profile</button>
             </div>
 
             {/* Security notice */}
