@@ -9,3 +9,4 @@ build/
 .vite/
 .idea/
 .vscode/settings.json
+.env.example
