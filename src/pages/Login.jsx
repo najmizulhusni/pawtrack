@@ -401,7 +401,7 @@ export default function Login({ onLogin }) {
             </p>
 
             {/* Add User Profile for Admin */}
-            <div style={{ marginTop: '20px', textAlign: 'center', paddingTop: '20px', borderTop: `1px solid ${theme.border}` }}>
+            <div style={{ marginTop: '20px', textAlign: 'center', paddingTop: '20px', borderTop: '1px solid #e5e7eb' }}>
               <p style={{ fontSize: '12px', color: '#64748b', margin: '0 0 12px' }}>Admin Setup</p>
               <button onClick={() => { setIsSignUp(true); setError('') }} style={{ background: 'none', border: 'none', color: '#4f46e5', fontSize: '13px', cursor: 'pointer', fontWeight: '600', textDecoration: 'underline' }}>Create Admin Profile</button>
             </div>
