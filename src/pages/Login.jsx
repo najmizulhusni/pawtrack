@@ -111,6 +111,24 @@ export default function Login({ onLogin }) {
         }
         
         if (data?.user) {
+          // Create profile in profiles table
+          const { error: profileError } = await supabase
+            .from('profiles')
+            .insert({
+              user_id: data.user.id,
+              name: sanitizeInput(form.name),
+              email: data.user.email,
+              phone: sanitizeInput(form.phone),
+              address: '',
+              created_at: new Date().toISOString(),
+              updated_at: new Date().toISOString()
+            })
+          
+          if (profileError) {
+            console.error('Profile creation error:', profileError)
+            throw new Error('Failed to create user profile. Please try again.')
+          }
+          
           clearRateLimit(rateLimitKey)
           onLogin({
             id: data.user.id,
