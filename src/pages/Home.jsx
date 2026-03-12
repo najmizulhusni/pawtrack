@@ -46,6 +46,7 @@ const CAT_BREEDS = ['Kampung Cat', 'Persian', 'British Shorthair', 'Maine Coon',
 export default function Home({ onNavigate }) {
   const { theme, darkMode, cats, addCat, selectCat, activeCat, getCatAge, calculateAge, user, handleLogout } = useApp()
     const [showAddCat, setShowAddCat] = useState(false)
+  const [showLogoutConfirm, setShowLogoutConfirm] = useState(false)
   const [newCat, setNewCat] = useState({ name: '', breed: 'Kampung Cat', birthdate: '', weight: '', gender: 'Male', color: '', vaccinated: false, neutered: false })
   const [currentMonth, setCurrentMonth] = useState(new Date())
   const [currentTime, setCurrentTime] = useState(new Date())
@@ -125,11 +126,28 @@ export default function Home({ onNavigate }) {
     <div style={{ minHeight: '100vh', background: theme.bg }}>
       <header style={{ padding: '16px 24px', display: 'flex', alignItems: 'center', justifyContent: 'space-between', borderBottom: `1px solid ${theme.border}`, background: theme.card }}>
         <h1 style={{ fontSize: '20px', fontWeight: '700', color: '#4f46e5', margin: 0, letterSpacing: '-0.3px' }}>PawTrack</h1>
-        <button onClick={() => { if (window.confirm('Are you sure you want to sign out?')) handleLogout() }} style={{ display: 'flex', alignItems: 'center', gap: '8px', padding: '8px 14px', borderRadius: '8px', border: 'none', background: 'transparent', color: theme.textMuted, cursor: 'pointer', fontSize: '14px', fontWeight: '500' }}>
+        <button onClick={() => setShowLogoutConfirm(true)} style={{ display: 'flex', alignItems: 'center', gap: '8px', padding: '8px 14px', borderRadius: '8px', border: 'none', background: 'transparent', color: theme.textMuted, cursor: 'pointer', fontSize: '14px', fontWeight: '500' }}>
           <LogoutIcon />
           <span>Sign Out</span>
         </button>
       </header>
+
+      {/* Logout Confirmation Modal */}
+      {showLogoutConfirm && (
+        <div style={{ position: 'fixed', inset: 0, background: 'rgba(0,0,0,0.5)', display: 'flex', alignItems: 'center', justifyContent: 'center', zIndex: 400, padding: '20px' }}>
+          <div style={{ background: theme.card, borderRadius: '16px', padding: '24px', width: '100%', maxWidth: '340px', textAlign: 'center' }}>
+            <div style={{ width: '56px', height: '56px', background: '#fef2f2', borderRadius: '50%', display: 'flex', alignItems: 'center', justifyContent: 'center', margin: '0 auto 16px' }}>
+              <LogoutIcon />
+            </div>
+            <h3 style={{ fontSize: '18px', fontWeight: '700', color: theme.text, margin: '0 0 8px' }}>Sign Out?</h3>
+            <p style={{ fontSize: '14px', color: theme.textMuted, margin: '0 0 24px' }}>Are you sure you want to sign out of your account?</p>
+            <div style={{ display: 'flex', gap: '12px' }}>
+              <button onClick={() => setShowLogoutConfirm(false)} style={{ flex: 1, padding: '12px', borderRadius: '10px', border: `1px solid ${theme.border}`, background: 'transparent', color: theme.text, fontSize: '14px', fontWeight: '600', cursor: 'pointer' }}>Cancel</button>
+              <button onClick={() => { setShowLogoutConfirm(false); handleLogout() }} style={{ flex: 1, padding: '12px', borderRadius: '10px', border: 'none', background: '#ef4444', color: 'white', fontSize: '14px', fontWeight: '600', cursor: 'pointer' }}>Sign Out</button>
+            </div>
+          </div>
+        </div>
+      )}
 
 
       {/* Add Cat Modal */}
