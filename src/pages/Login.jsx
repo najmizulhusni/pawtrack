@@ -402,12 +402,6 @@ export default function Login({ onLogin }) {
               <span onClick={() => { setIsSignUp(!isSignUp); setError('') }} style={{ color: '#4f46e5', fontWeight: '600', cursor: 'pointer' }}>{isSignUp ? 'Sign In' : 'Sign Up'}</span>
             </p>
 
-            {/* Add User Profile for Admin */}
-            <div style={{ marginTop: '20px', textAlign: 'center', paddingTop: '20px', borderTop: '1px solid #e5e7eb' }}>
-              <p style={{ fontSize: '12px', color: '#64748b', margin: '0 0 12px' }}>Admin Setup</p>
-              <button onClick={() => { setIsSignUp(true); setError('') }} style={{ background: 'none', border: 'none', color: '#4f46e5', fontSize: '13px', cursor: 'pointer', fontWeight: '600', textDecoration: 'underline' }}>Create Admin Profile</button>
-            </div>
-
             {/* Security notice */}
             <p style={{ fontSize: '11px', color: '#94a3b8', textAlign: 'center', margin: '16px 0 0' }}>
               <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" style={{ verticalAlign: 'middle', marginRight: '4px' }}><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0110 0v4"/></svg>
