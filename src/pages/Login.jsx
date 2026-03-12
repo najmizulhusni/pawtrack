@@ -106,6 +106,48 @@ export default function Login({ onLogin }) {
           { name: sanitizeInput(form.name), phone: sanitizeInput(form.phone) }
         )
         
+        // If user already exists, try to login instead
+        if (signUpError?.message?.includes('already registered')) {
+          const { data: loginData, error: loginError } = await auth.signIn(form.email, form.password)
+          
+          if (loginError) {
+            throw loginError
+          }
+          
+          if (loginData?.user) {
+            // Check if profile exists
+            const { data: profileData } = await supabase
+              .from('profiles')
+              .select('*')
+              .eq('user_id', loginData.user.id)
+              .single()
+            
+            // If profile doesn't exist, create it
+            if (!profileData) {
+              await supabase
+                .from('profiles')
+                .insert({
+                  user_id: loginData.user.id,
+                  name: sanitizeInput(form.name),
+                  email: loginData.user.email,
+                  phone: sanitizeInput(form.phone),
+                  address: '',
+                  created_at: new Date().toISOString(),
+                  updated_at: new Date().toISOString()
+                })
+            }
+            
+            clearRateLimit(rateLimitKey)
+            onLogin({
+              id: loginData.user.id,
+              name: sanitizeInput(form.name),
+              email: loginData.user.email,
+              phone: sanitizeInput(form.phone),
+            })
+            return
+          }
+        }
+        
         if (signUpError) {
           throw signUpError
         }
