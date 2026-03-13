@@ -46,7 +46,6 @@ export default function App() {
   const [notifications, setNotifications] = useState([])
   const [showNotifications, setShowNotifications] = useState(false)
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false)
-  const [showLogoutConfirm, setShowLogoutConfirm] = useState(false)
   const [cats, setCats] = useState([]) // Start with no cats - user must add
   const [user, setUser] = useState({ id: '', name: '', email: '', phone: '', address: '' })
   const [catsLoading, setCatsLoading] = useState(false)
@@ -399,29 +398,19 @@ export default function App() {
 
         {/* Mobile Header */}
         <header className="mobile-header" style={{ position: 'fixed', top: 0, left: 0, right: 0, zIndex: 100, background: theme.card, borderBottom: `1px solid ${theme.border}`, padding: '12px 16px', display: 'none' }}>
-          <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'flex-end' }}>
-            <button onClick={() => setShowLogoutConfirm(true)} style={{ width: '40px', height: '40px', borderRadius: '10px', border: 'none', background: 'transparent', color: '#ef4444', cursor: 'pointer', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M9 21H5a2 2 0 01-2-2V5a2 2 0 012-2h4M16 17l5-5-5-5M21 12H9"/></svg>
-            </button>
-          </div>
-        </header>
-
-        {/* Logout Confirmation Modal */}
-        {showLogoutConfirm && (
-          <div style={{ position: 'fixed', inset: 0, background: 'rgba(0,0,0,0.5)', display: 'flex', alignItems: 'center', justifyContent: 'center', zIndex: 400, padding: '20px' }}>
-            <div style={{ background: theme.card, borderRadius: '16px', padding: '24px', width: '100%', maxWidth: '340px', textAlign: 'center' }}>
-              <div style={{ width: '56px', height: '56px', background: '#fef2f2', borderRadius: '50%', display: 'flex', alignItems: 'center', justifyContent: 'center', margin: '0 auto 16px', color: '#ef4444' }}>
-                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M9 21H5a2 2 0 01-2-2V5a2 2 0 012-2h4M16 17l5-5-5-5M21 12H9"/></svg>
-              </div>
-              <h3 style={{ fontSize: '18px', fontWeight: '700', color: theme.text, margin: '0 0 8px' }}>Sign Out?</h3>
-              <p style={{ fontSize: '14px', color: theme.textMuted, margin: '0 0 24px' }}>Are you sure you want to sign out of your account?</p>
-              <div style={{ display: 'flex', gap: '12px' }}>
-                <button onClick={() => setShowLogoutConfirm(false)} style={{ flex: 1, padding: '12px', borderRadius: '10px', border: `1px solid ${theme.border}`, background: 'transparent', color: theme.text, fontSize: '14px', fontWeight: '600', cursor: 'pointer' }}>Cancel</button>
-                <button onClick={() => { setShowLogoutConfirm(false); handleLogout() }} style={{ flex: 1, padding: '12px', borderRadius: '10px', border: 'none', background: '#ef4444', color: 'white', fontSize: '14px', fontWeight: '600', cursor: 'pointer' }}>Sign Out</button>
-              </div>
+          <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
+            <button onClick={() => setMobileMenuOpen(true)} style={{ width: '40px', height: '40px', borderRadius: '10px', border: `1px solid ${theme.border}`, background: theme.card, color: theme.text, cursor: 'pointer', display: 'flex', alignItems: 'center', justifyContent: 'center' }}><MenuIcon /></button>
+            <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+              <div style={{ width: '36px', height: '36px', background: 'linear-gradient(135deg, #4f46e5, #7c3aed)', borderRadius: '8px', display: 'flex', alignItems: 'center', justifyContent: 'center', color: 'white' }}><CatIcon /></div>
+              <span style={{ fontSize: '18px', fontWeight: '700', color: theme.text }}>PawTrack</span>
+            </div>
+            <div style={{ display: 'flex', gap: '8px' }}>
+              <button onClick={() => setShowNotifications(!showNotifications)} style={{ width: '40px', height: '40px', borderRadius: '10px', border: `1px solid ${theme.border}`, background: theme.card, color: theme.textMuted, cursor: 'pointer', display: 'flex', alignItems: 'center', justifyContent: 'center', position: 'relative' }}>
+                <BellIcon />{unreadCount > 0 && <span style={{ position: 'absolute', top: '6px', right: '6px', width: '8px', height: '8px', background: '#ef4444', borderRadius: '50%' }} />}
+              </button>
             </div>
           </div>
-        )}
+        </header>
 
         {/* Mobile Slide-out Menu - Left Side */}
         {mobileMenuOpen && (
