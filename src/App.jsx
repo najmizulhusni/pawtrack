@@ -46,6 +46,7 @@ export default function App() {
   const [notifications, setNotifications] = useState([])
   const [showNotifications, setShowNotifications] = useState(false)
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false)
+  const [showLogoutConfirm, setShowLogoutConfirm] = useState(false)
   const [cats, setCats] = useState([]) // Start with no cats - user must add
   const [user, setUser] = useState({ id: '', name: '', email: '', phone: '', address: '' })
   const [catsLoading, setCatsLoading] = useState(false)
