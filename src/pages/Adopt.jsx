@@ -4,15 +4,56 @@ import { supabase } from '../lib/supabase'
 import CatDetail from './CatDetail'
 
 const MapPin = () => <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0118 0z"/><circle cx="12" cy="10" r="3"/></svg>
-const Phone = () => <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07 19.5 19.5 0 01-6-6 19.79 19.79 0 01-3.07-8.67A2 2 0 014.11 2h3a2 2 0 012 1.72c.127.96.361 1.903.7 2.81a2 2 0 01-.45 2.11L8.09 9.91a16 16 0 006 6l1.27-1.27a2 2 0 012.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0122 16.92z"/></svg>
 const SearchIcon = () => <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><circle cx="11" cy="11" r="8"/><path d="M21 21l-4.35-4.35"/></svg>
 const Calendar = () => <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><rect x="3" y="4" width="18" height="18" rx="2"/><path d="M16 2v4M8 2v4M3 10h18"/></svg>
 const Clock = () => <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></svg>
 const HeartIcon = () => <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M20.84 4.61a5.5 5.5 0 00-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 00-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 000-7.78z"/></svg>
 const CalendarIcon = () => <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><rect x="3" y="4" width="18" height="18" rx="2"/><path d="M16 2v4M8 2v4M3 10h18"/></svg>
 const WhatsAppIcon = () => <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+const ChevronDown = () => <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M6 9l6 6 6-6"/></svg>
+const ArrowLeft = () => <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M19 12H5M12 19l-7-7 7-7"/></svg>
 
 const TYPE_COLORS = { adoption: { bg: '#dcfce7', text: '#166534', label: 'Adoption' }, show: { bg: '#dbeafe', text: '#1e40af', label: 'Cat Show' }, health: { bg: '#fce7f3', text: '#9d174d', label: 'Health' }, charity: { bg: '#fef3c7', text: '#92400e', label: 'Charity' }, workshop: { bg: '#f3e8ff', text: '#6b21a8', label: 'Workshop' } }
+
+const CAT_BREEDS = ['All Breeds', 'Kampung Cat', 'Persian', 'British Shorthair', 'Maine Coon', 'Siamese', 'Ragdoll', 'Scottish Fold', 'Bengal', 'Sphynx', 'Russian Blue', 'Mixed Breed', 'Other']
+const AGE_OPTIONS = [
+  { value: 'all', label: 'All Ages' },
+  { value: 'kitten', label: 'Kitten (< 1 year)' },
+  { value: 'young', label: 'Young (1-3 years)' },
+  { value: 'adult', label: 'Adult (3-7 years)' },
+  { value: 'senior', label: 'Senior (7+ years)' },
+]
+
+// Custom Dropdown Component
+function CustomDropdown({ value, options, onChange, placeholder, theme, darkMode }) {
+  const [isOpen, setIsOpen] = useState(false)
+  const selected = options.find(o => (o.value || o) === value)
+  const displayLabel = selected ? (selected.label || selected) : placeholder
+  
+  return (
+    <div style={{ position: 'relative', minWidth: '140px' }}>
+      <button type="button" onClick={() => setIsOpen(!isOpen)} style={{ width: '100%', padding: '10px 14px', borderRadius: '10px', border: `1px solid ${theme.border}`, background: theme.card, color: theme.text, fontSize: '13px', cursor: 'pointer', display: 'flex', alignItems: 'center', justifyContent: 'space-between', textAlign: 'left', gap: '8px' }}>
+        <span style={{ overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>{displayLabel}</span>
+        <ChevronDown />
+      </button>
+      {isOpen && (
+        <>
+          <div style={{ position: 'fixed', inset: 0, zIndex: 100 }} onClick={() => setIsOpen(false)} />
+          <div style={{ position: 'absolute', top: '100%', left: 0, right: 0, marginTop: '4px', background: theme.card, border: `1px solid ${theme.border}`, borderRadius: '10px', boxShadow: '0 10px 40px rgba(0,0,0,0.15)', zIndex: 101, maxHeight: '240px', overflowY: 'auto' }}>
+            {options.map((opt, i) => {
+              const optValue = opt.value !== undefined ? opt.value : opt
+              const optLabel = opt.label || opt
+              return (
+                <button key={i} type="button" onClick={() => { onChange(optValue); setIsOpen(false) }} style={{ width: '100%', padding: '10px 14px', border: 'none', background: optValue === value ? (darkMode ? '#334155' : '#f0f9ff') : 'transparent', color: theme.text, fontSize: '13px', cursor: 'pointer', textAlign: 'left' }}>{optLabel}</button>
+              )
+            })}
+          </div>
+        </>
+      )}
+    </div>
+  )
+}
+
 
 export default function Adopt({ onNavigate }) {
   const { theme, darkMode } = useApp()
@@ -20,15 +61,15 @@ export default function Adopt({ onNavigate }) {
   const [selectedCat, setSelectedCat] = useState(null)
   const [searchQuery, setSearchQuery] = useState('')
   const [filterGender, setFilterGender] = useState('all')
+  const [filterBreed, setFilterBreed] = useState('All Breeds')
+  const [filterAge, setFilterAge] = useState('all')
   const [eventFilter, setEventFilter] = useState('all')
   const [adoptCats, setAdoptCats] = useState([])
   const [events, setEvents] = useState([])
   const [shelters, setShelters] = useState([])
   const [loading, setLoading] = useState(true)
 
-  useEffect(() => {
-    loadData()
-  }, [])
+  useEffect(() => { loadData() }, [])
 
   const loadData = async () => {
     setLoading(true)
@@ -41,37 +82,41 @@ export default function Adopt({ onNavigate }) {
       if (catsRes.data) setAdoptCats(catsRes.data)
       if (eventsRes.data) setEvents(eventsRes.data)
       if (sheltersRes.data) setShelters(sheltersRes.data)
-    } catch (err) {
-      console.error('Failed to load adopt data:', err)
-    } finally { setLoading(false) }
+    } catch (err) { console.error('Failed to load adopt data:', err) }
+    finally { setLoading(false) }
+  }
+
+  // Parse age string to determine category
+  const getAgeCategory = (ageStr) => {
+    if (!ageStr) return 'unknown'
+    const lower = ageStr.toLowerCase()
+    if (lower.includes('month') || lower.includes('kitten')) {
+      const months = parseInt(ageStr) || 0
+      if (months < 12) return 'kitten'
+    }
+    if (lower.includes('year')) {
+      const years = parseInt(ageStr) || 0
+      if (years < 1) return 'kitten'
+      if (years >= 1 && years < 3) return 'young'
+      if (years >= 3 && years < 7) return 'adult'
+      if (years >= 7) return 'senior'
+    }
+    return 'unknown'
   }
 
   const filteredCats = adoptCats.filter(cat => {
     const matchesSearch = (cat.name || '').toLowerCase().includes(searchQuery.toLowerCase()) || (cat.breed || '').toLowerCase().includes(searchQuery.toLowerCase())
     const matchesGender = filterGender === 'all' || cat.gender === filterGender
-    return matchesSearch && matchesGender
+    const matchesBreed = filterBreed === 'All Breeds' || cat.breed === filterBreed
+    const matchesAge = filterAge === 'all' || getAgeCategory(cat.age) === filterAge
+    return matchesSearch && matchesGender && matchesBreed && matchesAge
   })
 
   const filteredEvents = eventFilter === 'all' ? events : events.filter(e => e.event_type === eventFilter)
   const formatDate = (dateStr) => { try { return new Date(dateStr).toLocaleDateString('en-MY', { weekday: 'short', day: 'numeric', month: 'short' }) } catch { return dateStr } }
 
-  if (selectedCat) {
-    // Map Supabase data to CatDetail expected format
-    const catForDetail = {
-      ...selectedCat,
-      desc: selectedCat.description || 'No description available',
-      img: selectedCat.img_url || 'https://images.unsplash.com/photo-1574158622682-e40e69881006?w=600&q=80',
-      shelter: selectedCat.location || 'Unknown',
-      weight: null,
-      personality: selectedCat.description || '',
-      dewormed: false,
-      trained: false,
-      friendly: true,
-      indoor: true,
-      distance: '-',
-    }
-    return <CatDetail cat={catForDetail} onBack={() => setSelectedCat(null)} />
-  }
+  // Get unique breeds from data
+  const uniqueBreeds = ['All Breeds', ...new Set(adoptCats.map(c => c.breed).filter(Boolean))]
 
   if (loading) {
     return (
@@ -84,9 +129,12 @@ export default function Adopt({ onNavigate }) {
   return (
     <div style={{ minHeight: '100vh', background: theme.bg }}>
       <header style={{ padding: '16px 24px', display: 'flex', alignItems: 'center', gap: '14px', borderBottom: `1px solid ${theme.border}`, background: theme.card }}>
+        {selectedCat && (
+          <button onClick={() => setSelectedCat(null)} style={{ width: '36px', height: '36px', borderRadius: '10px', border: `1px solid ${theme.border}`, background: theme.card, color: theme.text, cursor: 'pointer', display: 'flex', alignItems: 'center', justifyContent: 'center' }}><ArrowLeft /></button>
+        )}
         <div style={{ flex: 1 }}>
-          <h1 style={{ fontSize: '20px', fontWeight: '700', color: theme.text, margin: 0 }}>Adopt & Events</h1>
-          <p style={{ fontSize: '12px', color: theme.textMuted, margin: '2px 0 0' }}>Find your furry friend or join pet events</p>
+          <h1 style={{ fontSize: '20px', fontWeight: '700', color: theme.text, margin: 0 }}>{selectedCat ? selectedCat.name : 'Adopt & Events'}</h1>
+          <p style={{ fontSize: '12px', color: theme.textMuted, margin: '2px 0 0' }}>{selectedCat ? `${selectedCat.breed} • ${selectedCat.gender}` : 'Find your furry friend or join pet events'}</p>
         </div>
       </header>
 
@@ -101,7 +149,7 @@ export default function Adopt({ onNavigate }) {
                 { id: 'events', label: 'Pet Events', icon: <CalendarIcon />, count: events.length },
                 { id: 'shelters', label: 'Shelters', icon: <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M3 21h18M9 8h1M9 12h1M9 16h1M14 8h1M14 12h1M14 16h1"/><path d="M5 21V5a2 2 0 012-2h10a2 2 0 012 2v16"/></svg>, count: shelters.length },
               ].map(item => (
-                <button key={item.id} onClick={() => setTab(item.id)} style={{ display: 'flex', alignItems: 'center', gap: '10px', padding: '10px 12px', borderRadius: '10px', border: 'none', background: tab === item.id ? (darkMode ? '#334155' : '#f0f9ff') : 'transparent', color: tab === item.id ? '#4f46e5' : theme.text, cursor: 'pointer', width: '100%', textAlign: 'left', fontSize: '13px', fontWeight: tab === item.id ? '600' : '500' }}>
+                <button key={item.id} onClick={() => { setTab(item.id); setSelectedCat(null) }} style={{ display: 'flex', alignItems: 'center', gap: '10px', padding: '10px 12px', borderRadius: '10px', border: 'none', background: tab === item.id && !selectedCat ? (darkMode ? '#334155' : '#f0f9ff') : 'transparent', color: tab === item.id && !selectedCat ? '#4f46e5' : theme.text, cursor: 'pointer', width: '100%', textAlign: 'left', fontSize: '13px', fontWeight: tab === item.id && !selectedCat ? '600' : '500' }}>
                   {item.icon}
                   <span style={{ flex: 1 }}>{item.label}</span>
                   <span style={{ fontSize: '11px', padding: '2px 8px', borderRadius: '100px', background: darkMode ? '#475569' : '#e2e8f0', color: theme.textMuted }}>{item.count}</span>
@@ -114,33 +162,64 @@ export default function Adopt({ onNavigate }) {
           </div>
         </div>
 
+
         {/* Main Content */}
         <div style={{ flex: 1, padding: '20px', overflowY: 'auto' }}>
           {/* Mobile Tabs */}
           <div className="mobile-tabs" style={{ display: 'none', gap: '8px', marginBottom: '16px', overflowX: 'auto', paddingBottom: '4px' }}>
-            <button onClick={() => setTab('cats')} style={{ padding: '10px 18px', borderRadius: '10px', border: 'none', background: tab === 'cats' ? 'linear-gradient(135deg, #4f46e5, #7c3aed)' : theme.card, color: tab === 'cats' ? 'white' : theme.text, fontSize: '13px', fontWeight: '600', cursor: 'pointer', whiteSpace: 'nowrap' }}>Cats ({adoptCats.filter(c => c.status === 'available').length})</button>
-            <button onClick={() => setTab('events')} style={{ padding: '10px 18px', borderRadius: '10px', border: 'none', background: tab === 'events' ? 'linear-gradient(135deg, #4f46e5, #7c3aed)' : theme.card, color: tab === 'events' ? 'white' : theme.text, fontSize: '13px', fontWeight: '600', cursor: 'pointer', whiteSpace: 'nowrap' }}>Events ({events.length})</button>
-            <button onClick={() => setTab('shelters')} style={{ padding: '10px 18px', borderRadius: '10px', border: 'none', background: tab === 'shelters' ? 'linear-gradient(135deg, #4f46e5, #7c3aed)' : theme.card, color: tab === 'shelters' ? 'white' : theme.text, fontSize: '13px', fontWeight: '600', cursor: 'pointer', whiteSpace: 'nowrap' }}>Shelters</button>
+            {selectedCat ? (
+              <button onClick={() => setSelectedCat(null)} style={{ padding: '10px 18px', borderRadius: '10px', border: `1px solid ${theme.border}`, background: theme.card, color: theme.text, fontSize: '13px', fontWeight: '600', cursor: 'pointer', whiteSpace: 'nowrap', display: 'flex', alignItems: 'center', gap: '6px' }}><ArrowLeft /> Back to List</button>
+            ) : (
+              <>
+                <button onClick={() => setTab('cats')} style={{ padding: '10px 18px', borderRadius: '10px', border: 'none', background: tab === 'cats' ? 'linear-gradient(135deg, #4f46e5, #7c3aed)' : theme.card, color: tab === 'cats' ? 'white' : theme.text, fontSize: '13px', fontWeight: '600', cursor: 'pointer', whiteSpace: 'nowrap' }}>Cats ({adoptCats.filter(c => c.status === 'available').length})</button>
+                <button onClick={() => setTab('events')} style={{ padding: '10px 18px', borderRadius: '10px', border: 'none', background: tab === 'events' ? 'linear-gradient(135deg, #4f46e5, #7c3aed)' : theme.card, color: tab === 'events' ? 'white' : theme.text, fontSize: '13px', fontWeight: '600', cursor: 'pointer', whiteSpace: 'nowrap' }}>Events ({events.length})</button>
+                <button onClick={() => setTab('shelters')} style={{ padding: '10px 18px', borderRadius: '10px', border: 'none', background: tab === 'shelters' ? 'linear-gradient(135deg, #4f46e5, #7c3aed)' : theme.card, color: tab === 'shelters' ? 'white' : theme.text, fontSize: '13px', fontWeight: '600', cursor: 'pointer', whiteSpace: 'nowrap' }}>Shelters</button>
+              </>
+            )}
           </div>
 
           {/* Mobile Warning */}
-          <div className="mobile-warning" style={{ display: 'none', background: '#fef3c7', borderRadius: '10px', padding: '12px', marginBottom: '16px', border: '1px solid #fcd34d' }}>
-            <p style={{ fontSize: '11px', color: '#92400e', margin: 0 }}>All adoptions require face-to-face meeting and IC verification.</p>
-          </div>
+          {!selectedCat && (
+            <div className="mobile-warning" style={{ display: 'none', background: '#fef3c7', borderRadius: '10px', padding: '12px', marginBottom: '16px', border: '1px solid #fcd34d' }}>
+              <p style={{ fontSize: '11px', color: '#92400e', margin: 0 }}>All adoptions require face-to-face meeting and IC verification.</p>
+            </div>
+          )}
+
+          {/* CAT DETAIL VIEW */}
+          {selectedCat && (
+            <CatDetail 
+              cat={{
+                ...selectedCat,
+                desc: selectedCat.description || 'No description available',
+                img: selectedCat.img_url || 'https://images.unsplash.com/photo-1574158622682-e40e69881006?w=600&q=80',
+                shelter: selectedCat.location || 'Unknown',
+                weight: null,
+                personality: selectedCat.description || '',
+                dewormed: false,
+                trained: false,
+                friendly: true,
+                indoor: true,
+                distance: '-',
+              }} 
+              onBack={() => setSelectedCat(null)}
+              embedded={true}
+            />
+          )}
 
           {/* CATS TAB */}
-          {tab === 'cats' && (
+          {!selectedCat && tab === 'cats' && (
             <>
-              <div style={{ display: 'flex', gap: '10px', marginBottom: '20px', flexWrap: 'wrap' }}>
-                <div style={{ flex: 1, minWidth: '200px', position: 'relative' }}>
-                  <div style={{ position: 'absolute', left: '12px', top: '50%', transform: 'translateY(-50%)', color: theme.textMuted }}><SearchIcon /></div>
-                  <input type="text" placeholder="Search by name or breed..." value={searchQuery} onChange={e => setSearchQuery(e.target.value)} style={{ width: '100%', padding: '12px 12px 12px 40px', borderRadius: '10px', border: `1px solid ${theme.border}`, fontSize: '13px', background: theme.card, color: theme.text, boxSizing: 'border-box' }} />
+              {/* Filter Card */}
+              <div style={{ background: theme.card, borderRadius: '14px', padding: '16px', marginBottom: '20px', border: `1px solid ${theme.border}` }}>
+                <div style={{ display: 'flex', alignItems: 'center', gap: '12px', flexWrap: 'wrap' }}>
+                  <div style={{ flex: 1, minWidth: '200px', position: 'relative' }}>
+                    <div style={{ position: 'absolute', left: '12px', top: '50%', transform: 'translateY(-50%)', color: theme.textMuted }}><SearchIcon /></div>
+                    <input type="text" placeholder="Search by name or breed..." value={searchQuery} onChange={e => setSearchQuery(e.target.value)} style={{ width: '100%', padding: '10px 10px 10px 40px', borderRadius: '10px', border: `1px solid ${theme.border}`, fontSize: '13px', background: theme.bg, color: theme.text, boxSizing: 'border-box' }} />
+                  </div>
+                  <CustomDropdown value={filterBreed} options={uniqueBreeds} onChange={setFilterBreed} placeholder="Breed" theme={theme} darkMode={darkMode} />
+                  <CustomDropdown value={filterGender} options={[{ value: 'all', label: 'All Genders' }, { value: 'Male', label: 'Male' }, { value: 'Female', label: 'Female' }]} onChange={setFilterGender} placeholder="Gender" theme={theme} darkMode={darkMode} />
+                  <CustomDropdown value={filterAge} options={AGE_OPTIONS} onChange={setFilterAge} placeholder="Age" theme={theme} darkMode={darkMode} />
                 </div>
-                <select value={filterGender} onChange={e => setFilterGender(e.target.value)} style={{ padding: '12px 16px', borderRadius: '10px', border: `1px solid ${theme.border}`, fontSize: '13px', background: theme.card, color: theme.text, appearance: 'none', backgroundImage: 'url("data:image/svg+xml,%3Csvg width=\'14\' height=\'14\' viewBox=\'0 0 24 24\' fill=\'none\' stroke=\'%2364748b\' stroke-width=\'2\'%3E%3Cpath d=\'M6 9l6 6 6-6\'/%3E%3C/svg%3E")', backgroundRepeat: 'no-repeat', backgroundPosition: 'right 12px center', paddingRight: '36px' }}>
-                  <option value="all">All Genders</option>
-                  <option value="Male">Male</option>
-                  <option value="Female">Female</option>
-                </select>
               </div>
 
               <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(240px, 1fr))', gap: '16px' }}>
@@ -167,25 +246,19 @@ export default function Adopt({ onNavigate }) {
                           {cat.vaccinated && <span style={{ fontSize: '10px', padding: '3px 8px', borderRadius: '100px', background: '#dcfce7', color: '#166534' }}>Vaccinated</span>}
                           {cat.neutered && <span style={{ fontSize: '10px', padding: '3px 8px', borderRadius: '100px', background: '#dbeafe', color: '#1e40af' }}>Neutered</span>}
                         </div>
-                        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-                          <p style={{ fontSize: '11px', color: theme.textMuted, margin: 0, display: 'flex', alignItems: 'center', gap: '4px' }}><MapPin /> {cat.location || 'Unknown'}</p>
-                          {cat.contact && (
-                            <button onClick={e => { e.stopPropagation(); window.open(`https://wa.me/${cat.contact.replace(/[^0-9]/g, '')}`, '_blank') }} style={{ display: 'flex', alignItems: 'center', gap: '4px', padding: '4px 8px', borderRadius: '6px', border: 'none', background: '#dcfce7', color: '#166534', fontSize: '10px', fontWeight: '600', cursor: 'pointer' }}>
-                              <WhatsAppIcon /> Chat
-                            </button>
-                          )}
-                        </div>
+                        <p style={{ fontSize: '11px', color: theme.textMuted, margin: 0, display: 'flex', alignItems: 'center', gap: '4px' }}><MapPin /> {cat.location || 'Unknown'}</p>
                       </div>
                     </div>
                   )
                 })}
               </div>
-              {filteredCats.length === 0 && <div style={{ textAlign: 'center', padding: '60px 20px' }}><p style={{ fontSize: '14px', color: theme.textMuted }}>No cats found matching your search.</p></div>}
+              {filteredCats.length === 0 && <div style={{ textAlign: 'center', padding: '60px 20px' }}><p style={{ fontSize: '14px', color: theme.textMuted }}>No cats found matching your filters.</p></div>}
             </>
           )}
 
+
           {/* EVENTS TAB */}
-          {tab === 'events' && (
+          {!selectedCat && tab === 'events' && (
             <>
               <div style={{ display: 'flex', gap: '8px', marginBottom: '20px', flexWrap: 'wrap' }}>
                 {[{ value: 'all', label: 'All Events' }, ...Object.entries(TYPE_COLORS).map(([k, v]) => ({ value: k, label: v.label }))].map(f => (
@@ -220,7 +293,7 @@ export default function Adopt({ onNavigate }) {
           )}
 
           {/* SHELTERS TAB */}
-          {tab === 'shelters' && (
+          {!selectedCat && tab === 'shelters' && (
             <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(300px, 1fr))', gap: '16px' }}>
               {shelters.length > 0 ? shelters.map(shelter => (
                 <div key={shelter.id} style={{ background: theme.card, borderRadius: '16px', padding: '20px', border: `1px solid ${theme.border}` }}>

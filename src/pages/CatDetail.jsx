@@ -16,7 +16,7 @@ const IndoorIcon = () => <svg width="18" height="18" viewBox="0 0 24 24" fill="n
 
 const WHATSAPP_NUMBER = '601111458752'
 
-export default function CatDetail({ cat, onBack }) {
+export default function CatDetail({ cat, onBack, embedded = false }) {
   const { theme, darkMode } = useApp()
 
   const sendWhatsAppInquiry = () => {
@@ -36,21 +36,23 @@ export default function CatDetail({ cat, onBack }) {
 
 
   return (
-    <div style={{ minHeight: '100vh', background: theme.bg }}>
-      {/* Back Button - Fixed on top */}
-      <div style={{ position: 'fixed', top: '16px', left: '16px', zIndex: 10 }}>
-        <button onClick={onBack} style={{ width: '40px', height: '40px', borderRadius: '12px', border: 'none', background: 'rgba(255,255,255,0.9)', cursor: 'pointer', display: 'flex', alignItems: 'center', justifyContent: 'center', color: '#1e293b', boxShadow: '0 2px 8px rgba(0,0,0,0.1)' }}><ArrowLeft /></button>
-      </div>
+    <div style={{ minHeight: embedded ? 'auto' : '100vh', background: embedded ? 'transparent' : theme.bg }}>
+      {/* Back Button - Only show when not embedded */}
+      {!embedded && (
+        <div style={{ position: 'fixed', top: '16px', left: '16px', zIndex: 10 }}>
+          <button onClick={onBack} style={{ width: '40px', height: '40px', borderRadius: '12px', border: 'none', background: 'rgba(255,255,255,0.9)', cursor: 'pointer', display: 'flex', alignItems: 'center', justifyContent: 'center', color: '#1e293b', boxShadow: '0 2px 8px rgba(0,0,0,0.1)' }}><ArrowLeft /></button>
+        </div>
+      )}
 
       {/* Main Content - Responsive Layout */}
-      <div className="cat-detail-container" style={{ display: 'flex', flexDirection: 'column', maxWidth: '1200px', margin: '0 auto' }}>
+      <div className={embedded ? '' : 'cat-detail-container'} style={{ display: 'flex', flexDirection: embedded ? 'row' : 'column', maxWidth: '1200px', margin: '0 auto', gap: embedded ? '24px' : '0' }}>
         {/* Image Section */}
-        <div className="cat-detail-image" style={{ position: 'relative' }}>
-          <img src={cat.img} alt={cat.name} style={{ width: '100%', height: '320px', objectFit: 'cover' }} />
+        <div className={embedded ? '' : 'cat-detail-image'} style={{ position: 'relative', flex: embedded ? '0 0 320px' : undefined }}>
+          <img src={cat.img} alt={cat.name} style={{ width: '100%', height: embedded ? '320px' : '320px', objectFit: 'cover', borderRadius: embedded ? '16px' : '0' }} />
         </div>
 
         {/* Content Section */}
-        <div className="cat-detail-content" style={{ padding: '20px', marginTop: '-30px', position: 'relative' }}>
+        <div className={embedded ? '' : 'cat-detail-content'} style={{ padding: embedded ? '0' : '20px', marginTop: embedded ? '0' : '-30px', position: 'relative', flex: embedded ? '1' : undefined }}>
           <div style={{ background: theme.card, borderRadius: '20px', padding: '20px', marginBottom: '16px', border: `1px solid ${theme.border}` }}>
             <h1 style={{ fontSize: '24px', fontWeight: '700', color: theme.text, margin: '0 0 4px' }}>{cat.breed}</h1>
             <div style={{ display: 'flex', alignItems: 'center', gap: '8px', marginBottom: '8px' }}>
@@ -99,7 +101,7 @@ export default function CatDetail({ cat, onBack }) {
           </div>
 
           {/* Description */}
-          <div style={{ background: theme.card, borderRadius: '20px', padding: '20px', marginBottom: '100px', border: `1px solid ${theme.border}` }}>
+          <div style={{ background: theme.card, borderRadius: '20px', padding: '20px', marginBottom: embedded ? '16px' : '100px', border: `1px solid ${theme.border}` }}>
             <h3 style={{ fontSize: '16px', fontWeight: '700', color: theme.text, margin: '0 0 12px' }}>Description</h3>
             <p style={{ fontSize: '14px', color: theme.text, margin: 0, lineHeight: 1.6 }}>{cat.desc}</p>
             {cat.personality && (
@@ -109,51 +111,62 @@ export default function CatDetail({ cat, onBack }) {
               </>
             )}
           </div>
+
+          {/* WhatsApp Button - Inline for embedded */}
+          {embedded && (
+            <button onClick={sendWhatsAppInquiry} style={{ width: '100%', padding: '16px', borderRadius: '14px', border: 'none', background: '#25D366', color: 'white', fontSize: '15px', fontWeight: '600', cursor: 'pointer', display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '10px' }}>
+              <WhatsAppIcon /> Send Your Inquiry
+            </button>
+          )}
         </div>
       </div>
 
-      {/* Fixed Bottom Button */}
-      <div className="cat-detail-cta" style={{ position: 'fixed', bottom: 0, left: 0, right: 0, padding: '16px 20px', background: theme.card, borderTop: `1px solid ${theme.border}`, paddingBottom: 'calc(16px + env(safe-area-inset-bottom))' }}>
-        <div style={{ maxWidth: '600px', margin: '0 auto' }}>
-          <button onClick={sendWhatsAppInquiry} style={{ width: '100%', padding: '16px', borderRadius: '14px', border: 'none', background: '#25D366', color: 'white', fontSize: '15px', fontWeight: '600', cursor: 'pointer', display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '10px' }}>
-            <WhatsAppIcon /> Send Your Inquiry
-          </button>
+      {/* Fixed Bottom Button - Only when not embedded */}
+      {!embedded && (
+        <div className="cat-detail-cta" style={{ position: 'fixed', bottom: 0, left: 0, right: 0, padding: '16px 20px', background: theme.card, borderTop: `1px solid ${theme.border}`, paddingBottom: 'calc(16px + env(safe-area-inset-bottom))' }}>
+          <div style={{ maxWidth: '600px', margin: '0 auto' }}>
+            <button onClick={sendWhatsAppInquiry} style={{ width: '100%', padding: '16px', borderRadius: '14px', border: 'none', background: '#25D366', color: 'white', fontSize: '15px', fontWeight: '600', cursor: 'pointer', display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '10px' }}>
+              <WhatsAppIcon /> Send Your Inquiry
+            </button>
+          </div>
         </div>
-      </div>
+      )}
 
-      {/* Responsive Styles */}
-      <style>{`
-        @media (min-width: 768px) {
-          .cat-detail-container {
-            flex-direction: row !important;
-            padding: 60px 40px 120px;
-            gap: 40px;
+      {/* Responsive Styles - Only apply when not embedded */}
+      {!embedded && (
+        <style>{`
+          @media (min-width: 768px) {
+            .cat-detail-container {
+              flex-direction: row !important;
+              padding: 60px 40px 120px;
+              gap: 40px;
+            }
+            .cat-detail-image {
+              flex: 0 0 400px;
+              position: sticky;
+              top: 80px;
+              height: fit-content;
+            }
+            .cat-detail-image img {
+              height: 400px !important;
+              border-radius: 20px;
+            }
+            .cat-detail-content {
+              flex: 1;
+              margin-top: 0 !important;
+              padding: 0 !important;
+            }
           }
-          .cat-detail-image {
-            flex: 0 0 400px;
-            position: sticky;
-            top: 80px;
-            height: fit-content;
+          @media (min-width: 1024px) {
+            .cat-detail-image {
+              flex: 0 0 480px;
+            }
+            .cat-detail-image img {
+              height: 500px !important;
+            }
           }
-          .cat-detail-image img {
-            height: 400px !important;
-            border-radius: 20px;
-          }
-          .cat-detail-content {
-            flex: 1;
-            margin-top: 0 !important;
-            padding: 0 !important;
-          }
-        }
-        @media (min-width: 1024px) {
-          .cat-detail-image {
-            flex: 0 0 480px;
-          }
-          .cat-detail-image img {
-            height: 500px !important;
-          }
-        }
-      `}</style>
+        `}</style>
+      )}
     </div>
   )
 }
