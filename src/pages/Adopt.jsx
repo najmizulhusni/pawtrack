@@ -168,9 +168,7 @@ export default function Adopt({ onNavigate }) {
         <div style={{ flex: 1, padding: '20px', overflowY: 'auto' }}>
           {/* Mobile Tabs */}
           <div className="mobile-tabs" style={{ display: 'none', gap: '8px', marginBottom: '16px', overflowX: 'auto', paddingBottom: '4px' }}>
-            {selectedCat ? (
-              <button onClick={() => setSelectedCat(null)} style={{ padding: '10px 18px', borderRadius: '10px', border: `1px solid ${theme.border}`, background: theme.card, color: theme.text, fontSize: '13px', fontWeight: '600', cursor: 'pointer', whiteSpace: 'nowrap', display: 'flex', alignItems: 'center', gap: '6px' }}><ArrowLeft /> Back to List</button>
-            ) : (
+            {!selectedCat && (
               <>
                 <button onClick={() => setTab('cats')} style={{ padding: '10px 18px', borderRadius: '10px', border: 'none', background: tab === 'cats' ? 'linear-gradient(135deg, #4f46e5, #7c3aed)' : theme.card, color: tab === 'cats' ? 'white' : theme.text, fontSize: '13px', fontWeight: '600', cursor: 'pointer', whiteSpace: 'nowrap' }}>Cats ({adoptCats.filter(c => c.status === 'available').length})</button>
                 <button onClick={() => setTab('events')} style={{ padding: '10px 18px', borderRadius: '10px', border: 'none', background: tab === 'events' ? 'linear-gradient(135deg, #4f46e5, #7c3aed)' : theme.card, color: tab === 'events' ? 'white' : theme.text, fontSize: '13px', fontWeight: '600', cursor: 'pointer', whiteSpace: 'nowrap' }}>Events ({events.length})</button>
