@@ -341,10 +341,24 @@ export default function Records({ onNavigate }) {
               <input placeholder="e.g., Happy Paws Clinic" value={newRecord.clinic} onChange={e => setNewRecord({...newRecord, clinic: e.target.value})} style={{ width: '100%', padding: '12px', borderRadius: '10px', border: `1px solid ${theme.border}`, fontSize: '14px', background: theme.bg, color: theme.text, boxSizing: 'border-box' }} />
             </div>
             
-            <div style={{ marginBottom: '20px' }}>
+            <div style={{ marginBottom: '12px' }}>
               <label style={{ fontSize: '12px', color: theme.textMuted, display: 'block', marginBottom: '4px' }}>Notes</label>
               <textarea placeholder="Add any notes about this visit..." value={newRecord.notes} onChange={e => setNewRecord({...newRecord, notes: e.target.value})} rows={3} style={{ width: '100%', padding: '12px', borderRadius: '10px', border: `1px solid ${theme.border}`, fontSize: '14px', background: theme.bg, color: theme.text, boxSizing: 'border-box', resize: 'none' }} />
             </div>
+            
+            {cats.length > 1 && (
+              <div style={{ marginBottom: '20px' }}>
+                <label style={{ fontSize: '12px', color: theme.textMuted, display: 'block', marginBottom: '4px' }}>For Cat *</label>
+                <CustomDropdown
+                  value={newRecord.catId || ''}
+                  options={[{ value: '', label: `Current cat (${activeCat?.name})` }, ...cats.map(c => ({ value: c.id, label: c.name }))]}
+                  onChange={(val) => setNewRecord({...newRecord, catId: val || null})}
+                  placeholder="Select cat"
+                  theme={theme}
+                  darkMode={darkMode}
+                />
+              </div>
+            )}
             
             <div style={{ display: 'flex', gap: '10px' }}>
               <button onClick={() => setShowAddRecord(false)} style={{ flex: 1, padding: '12px', borderRadius: '10px', border: `1px solid ${theme.border}`, background: 'transparent', color: theme.text, fontSize: '14px', fontWeight: '600', cursor: 'pointer' }}>Cancel</button>
