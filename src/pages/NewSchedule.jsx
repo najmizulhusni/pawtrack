@@ -137,7 +137,8 @@ export default function NewSchedule() {
   const getTasksForDate = (dateStr) => {
     const date = new Date(dateStr)
     return tasks.filter(t => {
-      if (selectedCat !== 'all' && t.cat_id !== parseInt(selectedCat)) return false
+      // Compare cat_id as strings (UUIDs)
+      if (selectedCat !== 'all' && t.cat_id !== selectedCat) return false
       const taskDate = new Date(t.task_date)
       if (t.task_date === dateStr) return true
       if (t.recurrence === 'daily' && date >= taskDate) return true
@@ -258,8 +259,8 @@ export default function NewSchedule() {
   const doneCount = todayTasks.filter(t => t.status === 'done').length
   const upcomingTasks = tasks.filter(t => t.status === 'upcoming' && new Date(t.task_date) >= new Date()).slice(0, 5)
 
-  // Cat filter options
-  const catFilterOptions = [{ value: 'all', label: 'All Cats' }, ...cats.map(c => ({ value: c.id.toString(), label: c.name, img: c.img }))]
+  // Cat filter options - use cat.id directly (UUID string)
+  const catFilterOptions = [{ value: 'all', label: 'All Cats' }, ...cats.map(c => ({ value: c.id, label: c.name, img: c.img }))]
 
   return (
     <div style={{ minHeight: '100vh', background: theme.bg }}>
@@ -450,9 +451,9 @@ export default function NewSchedule() {
               <div style={{ marginBottom: '20px' }}>
                 <label style={{ fontSize: '12px', color: theme.textMuted, display: 'block', marginBottom: '4px' }}>For Cat</label>
                 <CustomDropdown
-                  value={newTask.catId?.toString() || ''}
-                  options={[{ value: '', label: `Current cat (${activeCat?.name})` }, ...cats.map(c => ({ value: c.id.toString(), label: c.name, img: c.img }))]}
-                  onChange={(val) => setNewTask({...newTask, catId: val ? parseInt(val) : null})}
+                  value={newTask.catId || ''}
+                  options={[{ value: '', label: `Current cat (${activeCat?.name})` }, ...cats.map(c => ({ value: c.id, label: c.name, img: c.img }))]}
+                  onChange={(val) => setNewTask({...newTask, catId: val || null})}
                   placeholder="Select cat"
                   theme={theme}
                   darkMode={darkMode}
