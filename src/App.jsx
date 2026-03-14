@@ -303,7 +303,9 @@ export default function App() {
   
   // Update cat - save to Supabase
   const updateCat = async (id, data) => {
-    console.log('[UPDATE CAT] Updating cat:', id, data)
+    console.log('[UPDATE CAT] Updating cat ID:', id)
+    console.log('[UPDATE CAT] Update data:', data)
+    
     const updatedCats = cats.map(c => c.id === id ? { 
       ...c, 
       ...data,
@@ -312,30 +314,47 @@ export default function App() {
       color: data.color ? sanitizeInput(data.color) : c.color,
     } : c)
     setCats(updatedCats)
+    console.log('[UPDATE CAT] Updated local state')
     
     // Update in Supabase
     if (supabase) {
       try {
-        const updateData = {}
-        if (data.name) updateData.name = sanitizeInput(data.name)
-        if (data.breed) updateData.breed = sanitizeInput(data.breed)
-        if (data.color) updateData.color = sanitizeInput(data.color)
-        if (data.birthdate !== undefined) updateData.birthdate = data.birthdate
-        if (data.weight !== undefined) updateData.weight = data.weight
-        if (data.gender) updateData.gender = data.gender
-        if (data.vaccinated !== undefined) updateData.vaccinated = data.vaccinated
-        if (data.neutered !== undefined) updateData.neutered = data.neutered
+        const updateData = {
+          name: data.name ? sanitizeInput(data.name) : undefined,
+          breed: data.breed ? sanitizeInput(data.breed) : undefined,
+          color: data.color ? sanitizeInput(data.color) : undefined,
+          birthdate: data.birthdate,
+          weight: data.weight,
+          gender: data.gender,
+          vaccinated: data.vaccinated,
+          neutered: data.neutered,
+        }
+        
+        // Remove undefined values
+        Object.keys(updateData).forEach(key => {
+          if (updateData[key] === undefined) delete updateData[key]
+        })
         
         console.log('[UPDATE CAT] Supabase update data:', updateData)
-        const { data: result, error } = await supabase.from('cats').update(updateData).eq('id', id).select()
+        console.log('[UPDATE CAT] Cat ID for update:', id)
+        
+        const { data: result, error } = await supabase
+          .from('cats')
+          .update(updateData)
+          .eq('id', id)
+          .select()
+        
         if (error) {
           console.error('[UPDATE CAT] Supabase error:', error)
+          alert('Error updating cat: ' + error.message)
         } else {
           console.log('[UPDATE CAT] Supabase success:', result)
         }
       } catch (err) {
         console.error('[UPDATE CAT] Exception:', err)
       }
+    } else {
+      console.log('[UPDATE CAT] Supabase not available')
     }
   }
   

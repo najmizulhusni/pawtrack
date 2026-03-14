@@ -61,7 +61,14 @@ export default function Profile({ onNavigate }) {
   const [editCat, setEditCat] = useState(null)
 
   const handleSaveUser = () => { setUser(editUser); setEditingUser(false) }
-  const handleSaveCat = () => { if (editCat) { updateCat(editingCat, editCat); setEditingCat(null); setEditCat(null) } }
+  const handleSaveCat = () => { 
+    if (editCat) { 
+      console.log('[PROFILE] Saving cat:', editingCat, editCat)
+      updateCat(editingCat, editCat)
+      setEditingCat(null)
+      setEditCat(null) 
+    } 
+  }
   const handleDeleteCat = (id) => { if (cats.length > 1 && confirm('Delete this cat?')) deleteCat(id); else if (cats.length <= 1) alert('You must have at least one cat') }
   const startEditCat = (cat) => { setEditingCat(cat.id); setEditCat({ ...cat }) }
 

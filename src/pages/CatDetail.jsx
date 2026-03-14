@@ -2,8 +2,6 @@ import { useApp } from '../App'
 
 const ArrowLeft = () => <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M19 12H5M12 19l-7-7 7-7"/></svg>
 const MapPin = () => <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0118 0z"/><circle cx="12" cy="10" r="3"/></svg>
-const HeartIcon = () => <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M20.84 4.61a5.5 5.5 0 00-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 00-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 000-7.78z"/></svg>
-const ShareIcon = () => <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/><path d="M8.59 13.51l6.83 3.98M15.41 6.51l-6.82 3.98"/></svg>
 const WhatsAppIcon = () => <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
 
 // Trait icons
@@ -26,14 +24,6 @@ export default function CatDetail({ cat, onBack }) {
     window.open(`https://wa.me/${WHATSAPP_NUMBER}?text=${message}`, '_blank')
   }
 
-  const shareCat = () => {
-    if (navigator.share) {
-      navigator.share({ title: `Adopt ${cat.name}`, text: `Check out ${cat.name}, a ${cat.breed} looking for a forever home!`, url: window.location.href })
-    } else {
-      alert('Share link copied!')
-    }
-  }
-
   const traits = [
     cat.trained && { icon: <TrainedIcon />, label: 'Trained', color: '#22c55e' },
     cat.neutered && { icon: <SpayedIcon />, label: cat.gender === 'Female' ? 'Spayed' : 'Neutered', color: '#3b82f6' },
@@ -47,86 +37,123 @@ export default function CatDetail({ cat, onBack }) {
 
   return (
     <div style={{ minHeight: '100vh', background: theme.bg }}>
-      {/* Header */}
-      <div style={{ position: 'relative' }}>
-        <img src={cat.img} alt={cat.name} style={{ width: '100%', height: '320px', objectFit: 'cover' }} />
-        <div style={{ position: 'absolute', top: 0, left: 0, right: 0, padding: '16px 20px', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-          <button onClick={onBack} style={{ width: '40px', height: '40px', borderRadius: '12px', border: 'none', background: 'rgba(255,255,255,0.9)', cursor: 'pointer', display: 'flex', alignItems: 'center', justifyContent: 'center', color: '#1e293b' }}><ArrowLeft /></button>
-          <div style={{ display: 'flex', gap: '10px' }}>
-            <button style={{ width: '40px', height: '40px', borderRadius: '12px', border: 'none', background: 'rgba(255,255,255,0.9)', cursor: 'pointer', display: 'flex', alignItems: 'center', justifyContent: 'center', color: '#ef4444' }}><HeartIcon /></button>
-            <button onClick={shareCat} style={{ width: '40px', height: '40px', borderRadius: '12px', border: 'none', background: 'rgba(255,255,255,0.9)', cursor: 'pointer', display: 'flex', alignItems: 'center', justifyContent: 'center', color: '#1e293b' }}><ShareIcon /></button>
-          </div>
-        </div>
+      {/* Back Button - Fixed on top */}
+      <div style={{ position: 'fixed', top: '16px', left: '16px', zIndex: 10 }}>
+        <button onClick={onBack} style={{ width: '40px', height: '40px', borderRadius: '12px', border: 'none', background: 'rgba(255,255,255,0.9)', cursor: 'pointer', display: 'flex', alignItems: 'center', justifyContent: 'center', color: '#1e293b', boxShadow: '0 2px 8px rgba(0,0,0,0.1)' }}><ArrowLeft /></button>
       </div>
 
-      {/* Content */}
-      <div style={{ padding: '20px', marginTop: '-30px', position: 'relative' }}>
-        <div style={{ background: theme.card, borderRadius: '20px', padding: '20px', marginBottom: '16px', border: `1px solid ${theme.border}` }}>
-          <h1 style={{ fontSize: '24px', fontWeight: '700', color: theme.text, margin: '0 0 4px' }}>{cat.breed}</h1>
-          <div style={{ display: 'flex', alignItems: 'center', gap: '8px', marginBottom: '8px' }}>
-            <PetIcon />
-            <span style={{ fontSize: '14px', color: theme.text, fontWeight: '500' }}>{cat.name}</span>
-          </div>
-          <p style={{ fontSize: '13px', color: theme.textMuted, margin: 0, display: 'flex', alignItems: 'center', gap: '6px' }}>
-            <MapPin /> {cat.distance || '5'} km - {cat.location || cat.shelter || 'Petaling Jaya, Malaysia'}
-          </p>
+      {/* Main Content - Responsive Layout */}
+      <div className="cat-detail-container" style={{ display: 'flex', flexDirection: 'column', maxWidth: '1200px', margin: '0 auto' }}>
+        {/* Image Section */}
+        <div className="cat-detail-image" style={{ position: 'relative' }}>
+          <img src={cat.img} alt={cat.name} style={{ width: '100%', height: '320px', objectFit: 'cover' }} />
         </div>
 
-        {/* About / Traits */}
-        <div style={{ background: theme.card, borderRadius: '20px', padding: '20px', marginBottom: '16px', border: `1px solid ${theme.border}` }}>
-          <h3 style={{ fontSize: '16px', fontWeight: '700', color: theme.text, margin: '0 0 16px' }}>About</h3>
-          <div style={{ display: 'flex', flexWrap: 'wrap', gap: '10px' }}>
-            {traits.map((trait, i) => (
-              <div key={i} style={{ display: 'flex', alignItems: 'center', gap: '8px', padding: '10px 16px', borderRadius: '100px', background: darkMode ? '#334155' : '#f8fafc', border: `1px solid ${theme.border}` }}>
-                {trait.icon}
-                <span style={{ fontSize: '13px', fontWeight: '500', color: theme.text }}>{trait.label}</span>
+        {/* Content Section */}
+        <div className="cat-detail-content" style={{ padding: '20px', marginTop: '-30px', position: 'relative' }}>
+          <div style={{ background: theme.card, borderRadius: '20px', padding: '20px', marginBottom: '16px', border: `1px solid ${theme.border}` }}>
+            <h1 style={{ fontSize: '24px', fontWeight: '700', color: theme.text, margin: '0 0 4px' }}>{cat.breed}</h1>
+            <div style={{ display: 'flex', alignItems: 'center', gap: '8px', marginBottom: '8px' }}>
+              <PetIcon />
+              <span style={{ fontSize: '14px', color: theme.text, fontWeight: '500' }}>{cat.name}</span>
+            </div>
+            <p style={{ fontSize: '13px', color: theme.textMuted, margin: 0, display: 'flex', alignItems: 'center', gap: '6px' }}>
+              <MapPin /> {cat.distance || '5'} km - {cat.location || cat.shelter || 'Petaling Jaya, Malaysia'}
+            </p>
+          </div>
+
+          {/* About / Traits */}
+          <div style={{ background: theme.card, borderRadius: '20px', padding: '20px', marginBottom: '16px', border: `1px solid ${theme.border}` }}>
+            <h3 style={{ fontSize: '16px', fontWeight: '700', color: theme.text, margin: '0 0 16px' }}>About</h3>
+            <div style={{ display: 'flex', flexWrap: 'wrap', gap: '10px' }}>
+              {traits.map((trait, i) => (
+                <div key={i} style={{ display: 'flex', alignItems: 'center', gap: '8px', padding: '10px 16px', borderRadius: '100px', background: darkMode ? '#334155' : '#f8fafc', border: `1px solid ${theme.border}` }}>
+                  {trait.icon}
+                  <span style={{ fontSize: '13px', fontWeight: '500', color: theme.text }}>{trait.label}</span>
+                </div>
+              ))}
+            </div>
+          </div>
+
+          {/* Details */}
+          <div style={{ background: theme.card, borderRadius: '20px', padding: '20px', marginBottom: '16px', border: `1px solid ${theme.border}` }}>
+            <h3 style={{ fontSize: '16px', fontWeight: '700', color: theme.text, margin: '0 0 16px' }}>Details</h3>
+            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(2, 1fr)', gap: '12px' }}>
+              <div style={{ padding: '12px', background: darkMode ? '#334155' : '#f8fafc', borderRadius: '12px' }}>
+                <p style={{ fontSize: '11px', color: theme.textMuted, margin: '0 0 2px' }}>Age</p>
+                <p style={{ fontSize: '14px', fontWeight: '600', color: theme.text, margin: 0 }}>{cat.age}</p>
               </div>
-            ))}
-          </div>
-        </div>
-
-        {/* Details */}
-        <div style={{ background: theme.card, borderRadius: '20px', padding: '20px', marginBottom: '16px', border: `1px solid ${theme.border}` }}>
-          <h3 style={{ fontSize: '16px', fontWeight: '700', color: theme.text, margin: '0 0 16px' }}>Details</h3>
-          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(2, 1fr)', gap: '12px' }}>
-            <div style={{ padding: '12px', background: darkMode ? '#334155' : '#f8fafc', borderRadius: '12px' }}>
-              <p style={{ fontSize: '11px', color: theme.textMuted, margin: '0 0 2px' }}>Age</p>
-              <p style={{ fontSize: '14px', fontWeight: '600', color: theme.text, margin: 0 }}>{cat.age}</p>
-            </div>
-            <div style={{ padding: '12px', background: darkMode ? '#334155' : '#f8fafc', borderRadius: '12px' }}>
-              <p style={{ fontSize: '11px', color: theme.textMuted, margin: '0 0 2px' }}>Weight</p>
-              <p style={{ fontSize: '14px', fontWeight: '600', color: theme.text, margin: 0 }}>{cat.weight} kg</p>
-            </div>
-            <div style={{ padding: '12px', background: darkMode ? '#334155' : '#f8fafc', borderRadius: '12px' }}>
-              <p style={{ fontSize: '11px', color: theme.textMuted, margin: '0 0 2px' }}>Color</p>
-              <p style={{ fontSize: '14px', fontWeight: '600', color: theme.text, margin: 0 }}>{cat.color}</p>
-            </div>
-            <div style={{ padding: '12px', background: darkMode ? '#334155' : '#f8fafc', borderRadius: '12px' }}>
-              <p style={{ fontSize: '11px', color: theme.textMuted, margin: '0 0 2px' }}>Gender</p>
-              <p style={{ fontSize: '14px', fontWeight: '600', color: theme.text, margin: 0 }}>{cat.gender}</p>
+              <div style={{ padding: '12px', background: darkMode ? '#334155' : '#f8fafc', borderRadius: '12px' }}>
+                <p style={{ fontSize: '11px', color: theme.textMuted, margin: '0 0 2px' }}>Weight</p>
+                <p style={{ fontSize: '14px', fontWeight: '600', color: theme.text, margin: 0 }}>{cat.weight} kg</p>
+              </div>
+              <div style={{ padding: '12px', background: darkMode ? '#334155' : '#f8fafc', borderRadius: '12px' }}>
+                <p style={{ fontSize: '11px', color: theme.textMuted, margin: '0 0 2px' }}>Color</p>
+                <p style={{ fontSize: '14px', fontWeight: '600', color: theme.text, margin: 0 }}>{cat.color}</p>
+              </div>
+              <div style={{ padding: '12px', background: darkMode ? '#334155' : '#f8fafc', borderRadius: '12px' }}>
+                <p style={{ fontSize: '11px', color: theme.textMuted, margin: '0 0 2px' }}>Gender</p>
+                <p style={{ fontSize: '14px', fontWeight: '600', color: theme.text, margin: 0 }}>{cat.gender}</p>
+              </div>
             </div>
           </div>
-        </div>
 
-        {/* Description */}
-        <div style={{ background: theme.card, borderRadius: '20px', padding: '20px', marginBottom: '100px', border: `1px solid ${theme.border}` }}>
-          <h3 style={{ fontSize: '16px', fontWeight: '700', color: theme.text, margin: '0 0 12px' }}>Description</h3>
-          <p style={{ fontSize: '14px', color: theme.text, margin: 0, lineHeight: 1.6 }}>{cat.desc}</p>
-          {cat.personality && (
-            <>
-              <h4 style={{ fontSize: '14px', fontWeight: '600', color: theme.text, margin: '16px 0 8px' }}>Personality</h4>
-              <p style={{ fontSize: '14px', color: theme.textMuted, margin: 0, lineHeight: 1.6 }}>{cat.personality}</p>
-            </>
-          )}
+          {/* Description */}
+          <div style={{ background: theme.card, borderRadius: '20px', padding: '20px', marginBottom: '100px', border: `1px solid ${theme.border}` }}>
+            <h3 style={{ fontSize: '16px', fontWeight: '700', color: theme.text, margin: '0 0 12px' }}>Description</h3>
+            <p style={{ fontSize: '14px', color: theme.text, margin: 0, lineHeight: 1.6 }}>{cat.desc}</p>
+            {cat.personality && (
+              <>
+                <h4 style={{ fontSize: '14px', fontWeight: '600', color: theme.text, margin: '16px 0 8px' }}>Personality</h4>
+                <p style={{ fontSize: '14px', color: theme.textMuted, margin: 0, lineHeight: 1.6 }}>{cat.personality}</p>
+              </>
+            )}
+          </div>
         </div>
       </div>
 
       {/* Fixed Bottom Button */}
-      <div style={{ position: 'fixed', bottom: 0, left: 0, right: 0, padding: '16px 20px', background: theme.card, borderTop: `1px solid ${theme.border}`, paddingBottom: 'calc(16px + env(safe-area-inset-bottom))' }}>
-        <button onClick={sendWhatsAppInquiry} style={{ width: '100%', padding: '16px', borderRadius: '14px', border: 'none', background: '#25D366', color: 'white', fontSize: '15px', fontWeight: '600', cursor: 'pointer', display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '10px' }}>
-          <WhatsAppIcon /> Send Your Inquiry
-        </button>
+      <div className="cat-detail-cta" style={{ position: 'fixed', bottom: 0, left: 0, right: 0, padding: '16px 20px', background: theme.card, borderTop: `1px solid ${theme.border}`, paddingBottom: 'calc(16px + env(safe-area-inset-bottom))' }}>
+        <div style={{ maxWidth: '600px', margin: '0 auto' }}>
+          <button onClick={sendWhatsAppInquiry} style={{ width: '100%', padding: '16px', borderRadius: '14px', border: 'none', background: '#25D366', color: 'white', fontSize: '15px', fontWeight: '600', cursor: 'pointer', display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '10px' }}>
+            <WhatsAppIcon /> Send Your Inquiry
+          </button>
+        </div>
       </div>
+
+      {/* Responsive Styles */}
+      <style>{`
+        @media (min-width: 768px) {
+          .cat-detail-container {
+            flex-direction: row !important;
+            padding: 60px 40px 120px;
+            gap: 40px;
+          }
+          .cat-detail-image {
+            flex: 0 0 400px;
+            position: sticky;
+            top: 80px;
+            height: fit-content;
+          }
+          .cat-detail-image img {
+            height: 400px !important;
+            border-radius: 20px;
+          }
+          .cat-detail-content {
+            flex: 1;
+            margin-top: 0 !important;
+            padding: 0 !important;
+          }
+        }
+        @media (min-width: 1024px) {
+          .cat-detail-image {
+            flex: 0 0 480px;
+          }
+          .cat-detail-image img {
+            height: 500px !important;
+          }
+        }
+      `}</style>
     </div>
   )
 }

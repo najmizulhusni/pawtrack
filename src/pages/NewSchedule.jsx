@@ -12,6 +12,23 @@ const ChevronDown = () => <svg width="16" height="16" viewBox="0 0 24 24" fill="
 const RepeatIcon = () => <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M17 1l4 4-4 4"/><path d="M3 11V9a4 4 0 014-4h14"/><path d="M7 23l-4-4 4-4"/><path d="M21 13v2a4 4 0 01-4 4H3"/></svg>
 const CatIcon = () => <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M12 5c.67 0 1.35.09 2 .26 1.78-2 5.03-2.84 6.42-2.26 1.4.58-.42 7-.42 7 .57 1.07 1 2.24 1 3.44C21 17.9 16.97 21 12 21s-9-3.1-9-7.56c0-1.25.5-2.4 1-3.44 0 0-1.89-6.42-.5-7 1.39-.58 4.72.23 6.5 2.23A9.04 9.04 0 0112 5z"/></svg>
 
+// Cat Avatar Component
+const CatAvatar = ({ size = 24, cat, style = {} }) => {
+  const colors = ['#4f46e5', '#7c3aed', '#ec4899', '#f59e0b', '#22c55e', '#06b6d4', '#ef4444', '#8b5cf6']
+  const getColor = () => {
+    if (!cat) return colors[0]
+    const hash = (cat.name || '').split('').reduce((a, c) => a + c.charCodeAt(0), 0)
+    return colors[hash % colors.length]
+  }
+  const bgColor = getColor()
+  const iconSize = Math.floor(size * 0.5)
+  return (
+    <div style={{ width: size, height: size, borderRadius: size * 0.25, background: `linear-gradient(135deg, ${bgColor}, ${bgColor}dd)`, display: 'flex', alignItems: 'center', justifyContent: 'center', color: 'white', flexShrink: 0, ...style }}>
+      <svg width={iconSize} height={iconSize} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M12 5c.67 0 1.35.09 2 .26 1.78-2 5.03-2.84 6.42-2.26 1.4.58-.42 7-.42 7 .57 1.07 1 2.24 1 3.44C21 17.9 16.97 21 12 21s-9-3.1-9-7.56c0-1.25.5-2.4 1-3.44 0 0-1.89-6.42-.5-7 1.39-.58 4.72.23 6.5 2.23A9.04 9.04 0 0112 5z"/></svg>
+    </div>
+  )
+}
+
 const TASK_TYPES = [
   { value: 'feeding', label: 'Feeding', color: '#22c55e' },
   { value: 'medication', label: 'Medication', color: '#ef4444' },
@@ -247,7 +264,7 @@ export default function NewSchedule() {
   return (
     <div style={{ minHeight: '100vh', background: theme.bg }}>
       <header style={{ padding: '16px 24px', display: 'flex', alignItems: 'center', gap: '14px', borderBottom: `1px solid ${theme.border}`, background: theme.card }}>
-        <img src={activeCat?.img} alt="Cat" style={{ width: '42px', height: '42px', borderRadius: '10px', objectFit: 'cover' }} />
+        <CatAvatar size={42} cat={activeCat} style={{ borderRadius: '10px' }} />
         <div style={{ flex: 1 }}>
           <h1 style={{ fontSize: '20px', fontWeight: '700', color: theme.text, margin: 0 }}>Care Schedule</h1>
           <p style={{ fontSize: '12px', color: theme.textMuted, margin: '2px 0 0' }}>Manage your pet's routine</p>
@@ -273,8 +290,7 @@ export default function NewSchedule() {
                   darkMode={darkMode}
                   renderOption={(opt) => (
                     <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
-                      {opt.img && <img src={opt.img} alt="" style={{ width: '24px', height: '24px', borderRadius: '6px', objectFit: 'cover' }} />}
-                      {opt.value === 'all' && <CatIcon />}
+                      {opt.value === 'all' ? <CatIcon /> : <CatAvatar size={24} cat={opt} />}
                       <span>{opt.label}</span>
                     </div>
                   )}
@@ -442,7 +458,7 @@ export default function NewSchedule() {
                   darkMode={darkMode}
                   renderOption={(opt) => (
                     <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
-                      {opt.img && <img src={opt.img} alt="" style={{ width: '20px', height: '20px', borderRadius: '5px', objectFit: 'cover' }} />}
+                      <CatAvatar size={20} cat={opt} />
                       <span>{opt.label}</span>
                     </div>
                   )}
