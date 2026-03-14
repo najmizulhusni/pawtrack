@@ -240,12 +240,12 @@ export default function Records({ onNavigate }) {
       <div style={{ padding: '20px' }}>
         {/* Filter - Same style as Schedule */}
         <div style={{ background: theme.card, borderRadius: '14px', padding: '16px', marginBottom: '16px', border: `1px solid ${theme.border}` }}>
-          <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', flexWrap: 'wrap', gap: '12px' }}>
+          <div className="records-filter" style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', flexWrap: 'wrap', gap: '12px' }}>
             <div>
               <h4 style={{ fontSize: '14px', fontWeight: '600', color: theme.text, margin: '0 0 4px' }}>Filter Records</h4>
               <p style={{ fontSize: '12px', color: theme.textMuted, margin: 0 }}>View records for specific cat or date range</p>
             </div>
-            <div style={{ display: 'flex', gap: '12px', flexWrap: 'wrap', alignItems: 'center' }}>
+            <div className="records-filter-controls" style={{ display: 'flex', gap: '12px', flexWrap: 'wrap', alignItems: 'center' }}>
               <div style={{ minWidth: '160px' }}>
                 <CustomDropdown value={filterCat} options={catOptions} onChange={setFilterCat} placeholder="All Cats" theme={theme} darkMode={darkMode} />
               </div>
@@ -258,7 +258,7 @@ export default function Records({ onNavigate }) {
         </div>
 
         {/* Stats */}
-        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: '12px', marginBottom: '24px' }}>
+        <div className="records-stats" style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: '12px', marginBottom: '24px' }}>
           {stats.map((stat, i) => (
             <div key={i} style={{ background: theme.card, borderRadius: '14px', padding: '18px', border: `1px solid ${theme.border}` }}>
               <p style={{ fontSize: '26px', fontWeight: '700', color: stat.color, margin: '0 0 4px' }}>{stat.value}</p>
@@ -300,6 +300,15 @@ export default function Records({ onNavigate }) {
           </div>
         )}
       </div>
+
+      <style>{`
+        @media (max-width: 600px) {
+          .records-stats { grid-template-columns: 1fr !important; }
+          .records-filter { flex-direction: column !important; align-items: stretch !important; }
+          .records-filter-controls { flex-direction: column !important; width: 100% !important; }
+          .records-filter-controls > * { width: 100% !important; min-width: 100% !important; }
+        }
+      `}</style>
 
       {/* Add Record Modal */}
       {showAddRecord && (

@@ -275,12 +275,12 @@ export default function NewSchedule() {
         <div style={{ flex: 1, padding: '20px' }}>
           {/* Cat Filter - Always visible */}
           <div style={{ background: theme.card, borderRadius: '14px', padding: '16px', marginBottom: '16px', border: `1px solid ${theme.border}` }}>
-            <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', flexWrap: 'wrap', gap: '12px' }}>
+            <div className="schedule-filter" style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', flexWrap: 'wrap', gap: '12px' }}>
               <div>
                 <h4 style={{ fontSize: '14px', fontWeight: '600', color: theme.text, margin: '0 0 4px' }}>Filter Schedule</h4>
                 <p style={{ fontSize: '12px', color: theme.textMuted, margin: 0 }}>View tasks for specific cat</p>
               </div>
-              <div style={{ minWidth: '200px' }}>
+              <div className="schedule-filter-dropdown" style={{ minWidth: '200px' }}>
                 <CustomDropdown
                   value={selectedCat}
                   options={catFilterOptions}
@@ -473,6 +473,10 @@ export default function NewSchedule() {
 
       <style>{`
         @media (max-width: 900px) { .schedule-sidebar { display: none !important; } }
+        @media (max-width: 500px) { 
+          .schedule-filter { flex-direction: column !important; align-items: stretch !important; }
+          .schedule-filter-dropdown { min-width: 100% !important; width: 100% !important; }
+        }
       `}</style>
     </div>
   )

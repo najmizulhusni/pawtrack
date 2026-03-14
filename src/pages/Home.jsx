@@ -234,8 +234,8 @@ export default function Home({ onNavigate }) {
         {/* Main Content */}
         <div style={{ flex: 1, padding: '20px' }}>
           {/* Welcome Hero Card */}
-          <div style={{ background: 'linear-gradient(135deg, #c7d2fe 0%, #a5b4fc 100%)', borderRadius: '16px', padding: '24px', marginBottom: '20px', position: 'relative', overflow: 'hidden' }}>
-            <div style={{ maxWidth: '60%' }}>
+          <div className="hero-card" style={{ background: 'linear-gradient(135deg, #c7d2fe 0%, #a5b4fc 100%)', borderRadius: '16px', padding: '24px', marginBottom: '20px', position: 'relative', overflow: 'hidden' }}>
+            <div className="hero-content" style={{ maxWidth: '60%' }}>
               <h2 style={{ fontSize: '24px', fontWeight: '700', color: '#1e293b', margin: '0 0 8px', lineHeight: 1.3 }}>Hello, {firstName}!</h2>
               <p style={{ fontSize: '14px', color: '#475569', margin: '0 0 16px' }}>You have {cats.length} {cats.length === 1 ? 'cat' : 'cats'} to care for today</p>
               
@@ -252,7 +252,7 @@ export default function Home({ onNavigate }) {
 
               <button onClick={() => onNavigate('schedule')} style={{ background: '#1e293b', color: 'white', border: 'none', padding: '10px 18px', borderRadius: '10px', fontSize: '13px', fontWeight: '600', cursor: 'pointer', display: 'flex', alignItems: 'center', gap: '6px' }}><CalendarIcon /> View Schedule</button>
             </div>
-            <CatAvatar size={140} cat={activeCat} style={{ position: 'absolute', right: '20px', top: '50%', transform: 'translateY(-50%)', border: '4px solid white', boxShadow: '0 8px 25px rgba(0,0,0,0.15)', borderRadius: '50%' }} />
+            <CatAvatar size={140} cat={activeCat} style={{ position: 'absolute', right: '20px', top: '50%', transform: 'translateY(-50%)', border: '4px solid white', boxShadow: '0 8px 25px rgba(0,0,0,0.15)', borderRadius: '50%' }} className="hero-avatar" />
           </div>
 
           {/* Pet Info Card */}
@@ -264,12 +264,12 @@ export default function Home({ onNavigate }) {
                   <h3 style={{ fontSize: '16px', fontWeight: '700', color: theme.text, margin: 0 }}>{activeCat.name}</h3>
                   <p style={{ fontSize: '12px', color: theme.textMuted, margin: '2px 0 0' }}>{activeCat.breed} • {activeCat.gender}</p>
                 </div>
-                <div style={{ display: 'flex', gap: '4px' }}>
+                <div style={{ display: 'flex', gap: '4px', flexWrap: 'wrap' }}>
                   {activeCat.vaccinated && <span style={{ fontSize: '9px', padding: '3px 8px', borderRadius: '100px', background: '#dcfce7', color: '#166534' }}>Vaccinated</span>}
                   {activeCat.neutered && <span style={{ fontSize: '9px', padding: '3px 8px', borderRadius: '100px', background: '#dbeafe', color: '#1e40af' }}>Neutered</span>}
                 </div>
               </div>
-              <div style={{ display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gap: '10px' }}>
+              <div className="pet-info-grid" style={{ display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gap: '10px' }}>
                 <div style={{ background: darkMode ? '#334155' : '#f8fafc', borderRadius: '10px', padding: '12px', textAlign: 'center' }}>
                   <p style={{ fontSize: '10px', color: theme.textMuted, margin: 0 }}>Age</p>
                   <p style={{ fontSize: '14px', fontWeight: '600', color: theme.text, margin: '2px 0 0' }}>{catAge?.display || '-'}</p>
@@ -293,7 +293,7 @@ export default function Home({ onNavigate }) {
 
           {/* Quick Actions */}
           <h3 style={{ fontSize: '12px', fontWeight: '600', color: theme.textMuted, margin: '0 0 12px', textTransform: 'uppercase', letterSpacing: '0.5px' }}>Quick Actions</h3>
-          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gap: '10px', marginBottom: '20px' }}>
+          <div className="quick-actions" style={{ display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gap: '10px', marginBottom: '20px' }}>
             {[
               { label: 'Schedule', icon: <CalendarIcon />, color: '#4f46e5', page: 'schedule' },
               { label: 'Records', icon: <ClipboardIcon />, color: '#7c3aed', page: 'records' },
@@ -309,7 +309,7 @@ export default function Home({ onNavigate }) {
 
           {/* Care Tips */}
           <h3 style={{ fontSize: '12px', fontWeight: '600', color: theme.textMuted, margin: '0 0 12px', textTransform: 'uppercase', letterSpacing: '0.5px' }}>Daily Care Tips</h3>
-          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(2, 1fr)', gap: '10px', marginBottom: '20px' }}>
+          <div className="care-tips" style={{ display: 'grid', gridTemplateColumns: 'repeat(2, 1fr)', gap: '10px', marginBottom: '20px' }}>
             {tips.map((tip, i) => (
               <div key={i} style={{ background: theme.card, borderRadius: '12px', padding: '14px', border: `1px solid ${theme.border}`, display: 'flex', gap: '12px' }}>
                 <div style={{ width: '36px', height: '36px', background: `${tip.color}20`, borderRadius: '10px', display: 'flex', alignItems: 'center', justifyContent: 'center', color: tip.color, flexShrink: 0 }}>{tip.icon}</div>
@@ -404,6 +404,11 @@ export default function Home({ onNavigate }) {
         }
         @media (max-width: 768px) {
           .home-header { display: none !important; }
+          .hero-content { max-width: 100% !important; }
+          .hero-avatar { display: none !important; }
+          .quick-actions { grid-template-columns: repeat(2, 1fr) !important; }
+          .care-tips { grid-template-columns: 1fr !important; }
+          .pet-info-grid { grid-template-columns: repeat(2, 1fr) !important; }
         }
       `}</style>
     </div>

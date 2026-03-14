@@ -210,27 +210,29 @@ export default function Adopt({ onNavigate }) {
             <>
               {/* Filter Card */}
               <div style={{ background: theme.card, borderRadius: '14px', padding: '16px', marginBottom: '20px', border: `1px solid ${theme.border}` }}>
-                <div style={{ display: 'flex', alignItems: 'center', gap: '12px', flexWrap: 'wrap' }}>
-                  <div style={{ flex: 1, minWidth: '200px', position: 'relative' }}>
+                <div className="adopt-filter" style={{ display: 'flex', alignItems: 'center', gap: '12px', flexWrap: 'wrap' }}>
+                  <div className="adopt-search" style={{ flex: 1, minWidth: '200px', position: 'relative' }}>
                     <div style={{ position: 'absolute', left: '12px', top: '50%', transform: 'translateY(-50%)', color: theme.textMuted }}><SearchIcon /></div>
                     <input type="text" placeholder="Search by name or breed..." value={searchQuery} onChange={e => setSearchQuery(e.target.value)} style={{ width: '100%', padding: '10px 10px 10px 40px', borderRadius: '10px', border: `1px solid ${theme.border}`, fontSize: '13px', background: theme.bg, color: theme.text, boxSizing: 'border-box' }} />
                   </div>
-                  <CustomDropdown 
-                    value={filterBreed} 
-                    options={uniqueBreeds.map(b => ({ value: b, label: b }))} 
-                    onChange={setFilterBreed} 
-                    placeholder="Breed" 
-                    theme={theme} 
-                    darkMode={darkMode}
-                    renderOption={(opt) => (
-                      <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
-                        {opt.value === 'All Breeds' && <CatIcon />}
-                        <span>{opt.label}</span>
-                      </div>
-                    )}
-                  />
-                  <CustomDropdown value={filterGender} options={[{ value: 'all', label: 'All Genders' }, { value: 'Male', label: 'Male' }, { value: 'Female', label: 'Female' }]} onChange={setFilterGender} placeholder="Gender" theme={theme} darkMode={darkMode} />
-                  <CustomDropdown value={filterAge} options={AGE_OPTIONS} onChange={setFilterAge} placeholder="Age" theme={theme} darkMode={darkMode} />
+                  <div className="adopt-dropdowns" style={{ display: 'flex', gap: '12px', flexWrap: 'wrap' }}>
+                    <CustomDropdown 
+                      value={filterBreed} 
+                      options={uniqueBreeds.map(b => ({ value: b, label: b }))} 
+                      onChange={setFilterBreed} 
+                      placeholder="Breed" 
+                      theme={theme} 
+                      darkMode={darkMode}
+                      renderOption={(opt) => (
+                        <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+                          {opt.value === 'All Breeds' && <CatIcon />}
+                          <span>{opt.label}</span>
+                        </div>
+                      )}
+                    />
+                    <CustomDropdown value={filterGender} options={[{ value: 'all', label: 'All Genders' }, { value: 'Male', label: 'Male' }, { value: 'Female', label: 'Female' }]} onChange={setFilterGender} placeholder="Gender" theme={theme} darkMode={darkMode} />
+                    <CustomDropdown value={filterAge} options={AGE_OPTIONS} onChange={setFilterAge} placeholder="Age" theme={theme} darkMode={darkMode} />
+                  </div>
                 </div>
               </div>
 
@@ -337,6 +339,10 @@ export default function Adopt({ onNavigate }) {
           .adopt-sidebar { display: none !important; }
           .mobile-tabs { display: flex !important; }
           .mobile-warning { display: block !important; }
+          .adopt-filter { flex-direction: column !important; }
+          .adopt-search { width: 100% !important; min-width: 100% !important; }
+          .adopt-dropdowns { width: 100% !important; }
+          .adopt-dropdowns > * { flex: 1 !important; min-width: 0 !important; }
         }
         .cat-card:hover { transform: translateY(-2px); box-shadow: 0 8px 25px rgba(0,0,0,0.1); }
       `}</style>

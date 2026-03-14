@@ -136,7 +136,7 @@ export default function Profile({ onNavigate }) {
                         <CustomDropdown value={editCat.breed} options={CAT_BREEDS.map(b => ({ value: b, label: b }))} onChange={v => setEditCat({...editCat, breed: v})} theme={theme} />
                       </div>
                     </div>
-                    <div style={{ display: 'grid', gridTemplateColumns: 'repeat(2, 1fr)', gap: '8px', marginBottom: '12px' }}>
+                    <div className="cat-edit-grid" style={{ display: 'grid', gridTemplateColumns: 'repeat(2, 1fr)', gap: '8px', marginBottom: '12px' }}>
                       <div>
                         <label style={{ fontSize: '10px', color: theme.textMuted }}>Birthdate</label>
                         <input type="date" value={editCat.birthdate || ''} onChange={e => setEditCat({...editCat, birthdate: e.target.value})} style={{ width: '100%', padding: '8px', borderRadius: '6px', border: `1px solid ${theme.border}`, fontSize: '13px', background: theme.bg, color: theme.text, boxSizing: 'border-box' }} />
@@ -218,6 +218,11 @@ export default function Profile({ onNavigate }) {
         </button>
       </div>
 
+      <style>{`
+        @media (max-width: 400px) {
+          .cat-edit-grid { grid-template-columns: 1fr !important; }
+        }
+      `}</style>
 
     </div>
   )
