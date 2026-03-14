@@ -12,6 +12,7 @@ const CalendarIcon = () => <svg width="18" height="18" viewBox="0 0 24 24" fill=
 const WhatsAppIcon = () => <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
 const ChevronDown = () => <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M6 9l6 6 6-6"/></svg>
 const ArrowLeft = () => <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M19 12H5M12 19l-7-7 7-7"/></svg>
+const CatIcon = () => <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M12 5c.67 0 1.35.09 2 .26 1.78-2 5.03-2.84 6.42-2.26 1.4.58-.42 7-.42 7 .57 1.07 1 2.24 1 3.44C21 17.9 16.97 21 12 21s-9-3.1-9-7.56c0-1.25.5-2.4 1-3.44 0 0-1.89-6.42-.5-7 1.39-.58 4.72.23 6.5 2.23A9.04 9.04 0 0112 5z"/></svg>
 
 const TYPE_COLORS = { adoption: { bg: '#dcfce7', text: '#166534', label: 'Adoption' }, show: { bg: '#dbeafe', text: '#1e40af', label: 'Cat Show' }, health: { bg: '#fce7f3', text: '#9d174d', label: 'Health' }, charity: { bg: '#fef3c7', text: '#92400e', label: 'Charity' }, workshop: { bg: '#f3e8ff', text: '#6b21a8', label: 'Workshop' } }
 
@@ -25,15 +26,15 @@ const AGE_OPTIONS = [
 ]
 
 // Custom Dropdown Component
-function CustomDropdown({ value, options, onChange, placeholder, theme, darkMode }) {
+function CustomDropdown({ value, options, onChange, placeholder, theme, darkMode, renderOption }) {
   const [isOpen, setIsOpen] = useState(false)
   const selected = options.find(o => (o.value || o) === value)
-  const displayLabel = selected ? (selected.label || selected) : placeholder
+  const displayLabel = selected ? (renderOption ? renderOption(selected) : (selected.label || selected)) : placeholder
   
   return (
     <div style={{ position: 'relative', minWidth: '140px' }}>
       <button type="button" onClick={() => setIsOpen(!isOpen)} style={{ width: '100%', padding: '10px 14px', borderRadius: '10px', border: `1px solid ${theme.border}`, background: theme.card, color: theme.text, fontSize: '13px', cursor: 'pointer', display: 'flex', alignItems: 'center', justifyContent: 'space-between', textAlign: 'left', gap: '8px' }}>
-        <span style={{ overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>{displayLabel}</span>
+        <span style={{ overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap', display: 'flex', alignItems: 'center', gap: '8px' }}>{displayLabel}</span>
         <ChevronDown />
       </button>
       {isOpen && (
@@ -42,9 +43,9 @@ function CustomDropdown({ value, options, onChange, placeholder, theme, darkMode
           <div style={{ position: 'absolute', top: '100%', left: 0, right: 0, marginTop: '4px', background: theme.card, border: `1px solid ${theme.border}`, borderRadius: '10px', boxShadow: '0 10px 40px rgba(0,0,0,0.15)', zIndex: 101, maxHeight: '240px', overflowY: 'auto' }}>
             {options.map((opt, i) => {
               const optValue = opt.value !== undefined ? opt.value : opt
-              const optLabel = opt.label || opt
+              const optLabel = renderOption ? renderOption(opt) : (opt.label || opt)
               return (
-                <button key={i} type="button" onClick={() => { onChange(optValue); setIsOpen(false) }} style={{ width: '100%', padding: '10px 14px', border: 'none', background: optValue === value ? (darkMode ? '#334155' : '#f0f9ff') : 'transparent', color: theme.text, fontSize: '13px', cursor: 'pointer', textAlign: 'left' }}>{optLabel}</button>
+                <button key={i} type="button" onClick={() => { onChange(optValue); setIsOpen(false) }} style={{ width: '100%', padding: '10px 14px', border: 'none', background: optValue === value ? (darkMode ? '#334155' : '#f0f9ff') : 'transparent', color: theme.text, fontSize: '13px', cursor: 'pointer', textAlign: 'left', display: 'flex', alignItems: 'center', gap: '8px' }}>{optLabel}</button>
               )
             })}
           </div>
@@ -216,7 +217,20 @@ export default function Adopt({ onNavigate }) {
                     <div style={{ position: 'absolute', left: '12px', top: '50%', transform: 'translateY(-50%)', color: theme.textMuted }}><SearchIcon /></div>
                     <input type="text" placeholder="Search by name or breed..." value={searchQuery} onChange={e => setSearchQuery(e.target.value)} style={{ width: '100%', padding: '10px 10px 10px 40px', borderRadius: '10px', border: `1px solid ${theme.border}`, fontSize: '13px', background: theme.bg, color: theme.text, boxSizing: 'border-box' }} />
                   </div>
-                  <CustomDropdown value={filterBreed} options={uniqueBreeds} onChange={setFilterBreed} placeholder="Breed" theme={theme} darkMode={darkMode} />
+                  <CustomDropdown 
+                    value={filterBreed} 
+                    options={uniqueBreeds.map(b => ({ value: b, label: b }))} 
+                    onChange={setFilterBreed} 
+                    placeholder="Breed" 
+                    theme={theme} 
+                    darkMode={darkMode}
+                    renderOption={(opt) => (
+                      <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+                        {opt.value === 'All Breeds' && <CatIcon />}
+                        <span>{opt.label}</span>
+                      </div>
+                    )}
+                  />
                   <CustomDropdown value={filterGender} options={[{ value: 'all', label: 'All Genders' }, { value: 'Male', label: 'Male' }, { value: 'Female', label: 'Female' }]} onChange={setFilterGender} placeholder="Gender" theme={theme} darkMode={darkMode} />
                   <CustomDropdown value={filterAge} options={AGE_OPTIONS} onChange={setFilterAge} placeholder="Age" theme={theme} darkMode={darkMode} />
                 </div>

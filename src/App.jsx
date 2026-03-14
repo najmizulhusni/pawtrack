@@ -143,18 +143,41 @@ export default function App() {
   const saveUserProfile = async (userData) => {
     if (!supabase || !userData.id) return
     try {
-      const { error } = await supabase
+      // First check if profile exists
+      const { data: existing } = await supabase
         .from('profiles')
-        .upsert({
-          user_id: userData.id,
-          name: userData.name,
-          email: userData.email,
-          phone: userData.phone,
-          address: userData.address || '',
-          updated_at: new Date().toISOString()
-        }, { onConflict: 'user_id' })
+        .select('id')
+        .eq('user_id', userData.id)
+        .single()
       
-      if (error) console.error('Save profile error:', error)
+      if (existing) {
+        // Update existing profile
+        const { error } = await supabase
+          .from('profiles')
+          .update({
+            name: userData.name,
+            email: userData.email,
+            phone: userData.phone,
+            address: userData.address || '',
+            updated_at: new Date().toISOString()
+          })
+          .eq('user_id', userData.id)
+        
+        if (error) console.error('Update profile error:', error)
+      } else {
+        // Insert new profile
+        const { error } = await supabase
+          .from('profiles')
+          .insert({
+            user_id: userData.id,
+            name: userData.name,
+            email: userData.email,
+            phone: userData.phone,
+            address: userData.address || ''
+          })
+        
+        if (error) console.error('Insert profile error:', error)
+      }
     } catch (err) {
       console.error('Save profile error:', err)
     }
