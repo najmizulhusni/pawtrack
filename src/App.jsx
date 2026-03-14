@@ -24,6 +24,23 @@ const CatIcon = () => <svg width="24" height="24" viewBox="0 0 24 24" fill="none
 const XIcon = () => <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M18 6L6 18M6 6l12 12"/></svg>
 const MenuIcon = () => <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M3 12h18M3 6h18M3 18h18"/></svg>
 
+// Cat Avatar Component
+const CatAvatar = ({ size = 48, cat, style = {} }) => {
+  const colors = ['#4f46e5', '#7c3aed', '#ec4899', '#f59e0b', '#22c55e', '#06b6d4', '#ef4444', '#8b5cf6']
+  const getColor = () => {
+    if (!cat) return colors[0]
+    const hash = (cat.name || '').split('').reduce((a, c) => a + c.charCodeAt(0), 0)
+    return colors[hash % colors.length]
+  }
+  const bgColor = getColor()
+  const iconSize = Math.floor(size * 0.5)
+  return (
+    <div style={{ width: size, height: size, borderRadius: size * 0.25, background: `linear-gradient(135deg, ${bgColor}, ${bgColor}dd)`, display: 'flex', alignItems: 'center', justifyContent: 'center', color: 'white', flexShrink: 0, ...style }}>
+      <svg width={iconSize} height={iconSize} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M12 5c.67 0 1.35.09 2 .26 1.78-2 5.03-2.84 6.42-2.26 1.4.58-.42 7-.42 7 .57 1.07 1 2.24 1 3.44C21 17.9 16.97 21 12 21s-9-3.1-9-7.56c0-1.25.5-2.4 1-3.44 0 0-1.89-6.42-.5-7 1.39-.58 4.72.23 6.5 2.23A9.04 9.04 0 0112 5z"/></svg>
+    </div>
+  )
+}
+
 const calculateAge = (birthdate) => {
   if (!birthdate) return null
   const birth = new Date(birthdate), now = new Date()
@@ -442,7 +459,7 @@ export default function App() {
               </div>
               <div style={{ padding: '16px 20px', borderBottom: `1px solid ${theme.border}` }}>
                 <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
-                  <img src={activeCat?.img} alt={activeCat?.name} style={{ width: '48px', height: '48px', borderRadius: '10px', objectFit: 'cover' }} />
+                  <CatAvatar size={48} cat={activeCat} />
                   <div>
                     <p style={{ fontSize: '15px', fontWeight: '600', color: theme.text, margin: 0 }}>{user.name?.split(' ')[0] || 'Pet Owner'}</p>
                     <p style={{ fontSize: '13px', color: theme.textMuted, margin: '2px 0 0' }}>{activeCat?.name}</p>

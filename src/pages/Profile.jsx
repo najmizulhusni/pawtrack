@@ -11,6 +11,22 @@ const BellIcon = () => <svg width="18" height="18" viewBox="0 0 24 24" fill="non
 const LogOutIcon = () => <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M9 21H5a2 2 0 01-2-2V5a2 2 0 012-2h4M16 17l5-5-5-5M21 12H9"/></svg>
 const ChevronDown = () => <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M6 9l6 6 6-6"/></svg>
 
+// Cat Avatar Component
+const CatAvatar = ({ size = 48, cat, style = {} }) => {
+  const colors = ['#4f46e5', '#7c3aed', '#ec4899', '#f59e0b', '#22c55e', '#06b6d4', '#ef4444', '#8b5cf6']
+  const getColor = () => {
+    if (!cat) return colors[0]
+    const hash = (cat.name || '').split('').reduce((a, c) => a + c.charCodeAt(0), 0)
+    return colors[hash % colors.length]
+  }
+  const bgColor = getColor()
+  const iconSize = Math.floor(size * 0.5)
+  return (
+    <div style={{ width: size, height: size, borderRadius: size * 0.25, background: `linear-gradient(135deg, ${bgColor}, ${bgColor}dd)`, display: 'flex', alignItems: 'center', justifyContent: 'center', color: 'white', flexShrink: 0, ...style }}>
+      <svg width={iconSize} height={iconSize} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M12 5c.67 0 1.35.09 2 .26 1.78-2 5.03-2.84 6.42-2.26 1.4.58-.42 7-.42 7 .57 1.07 1 2.24 1 3.44C21 17.9 16.97 21 12 21s-9-3.1-9-7.56c0-1.25.5-2.4 1-3.44 0 0-1.89-6.42-.5-7 1.39-.58 4.72.23 6.5 2.23A9.04 9.04 0 0112 5z"/></svg>
+    </div>
+  )
+}
 
 const CAT_BREEDS = ['Kampung Cat', 'Persian', 'British Shorthair', 'Maine Coon', 'Siamese', 'Ragdoll', 'Scottish Fold', 'Bengal', 'Sphynx', 'Russian Blue', 'Abyssinian', 'Burmese', 'Mixed Breed', 'Other']
 
@@ -107,7 +123,7 @@ export default function Profile({ onNavigate }) {
                 {isEditing ? (
                   <div>
                     <div style={{ display: 'flex', gap: '12px', marginBottom: '12px' }}>
-                      <img src={cat.img} alt={cat.name} style={{ width: '60px', height: '60px', borderRadius: '10px', objectFit: 'cover' }} />
+                      <CatAvatar size={60} cat={cat} />
                       <div style={{ flex: 1 }}>
                         <input value={editCat.name} onChange={e => setEditCat({...editCat, name: e.target.value})} placeholder="Name" style={{ width: '100%', padding: '8px', borderRadius: '6px', border: `1px solid ${theme.border}`, fontSize: '13px', background: theme.bg, color: theme.text, marginBottom: '8px', boxSizing: 'border-box' }} />
                         <CustomDropdown value={editCat.breed} options={CAT_BREEDS.map(b => ({ value: b, label: b }))} onChange={v => setEditCat({...editCat, breed: v})} theme={theme} />
@@ -146,7 +162,7 @@ export default function Profile({ onNavigate }) {
                   </div>
                 ) : (
                   <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
-                    <img src={cat.img} alt={cat.name} style={{ width: '50px', height: '50px', borderRadius: '10px', objectFit: 'cover' }} />
+                    <CatAvatar size={50} cat={cat} />
                     <div style={{ flex: 1 }}>
                       <p style={{ fontSize: '14px', fontWeight: '600', color: theme.text, margin: 0 }}>{cat.name}</p>
                       <p style={{ fontSize: '12px', color: theme.textMuted, margin: '2px 0 0' }}>{cat.breed} • {cat.gender} • {age?.display || 'Age unknown'}</p>

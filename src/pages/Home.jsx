@@ -16,6 +16,23 @@ const ScissorsIcon = () => <svg width="16" height="16" viewBox="0 0 24 24" fill=
 const ActivityIcon = () => <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M22 12h-4l-3 9L9 3l-3 9H2"/></svg>
 const CatIcon = () => <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M12 5c.67 0 1.35.09 2 .26 1.78-2 5.03-2.84 6.42-2.26 1.4.58-.42 7-.42 7 .57 1.07 1 2.24 1 3.44C21 17.9 16.97 21 12 21s-9-3.1-9-7.56c0-1.25.5-2.4 1-3.44 0 0-1.89-6.42-.5-7 1.39-.58 4.72.23 6.5 2.23A9.04 9.04 0 0112 5z"/></svg>
 
+// Cat Avatar Component - displays cat icon with color based on cat's color/gender
+const CatAvatar = ({ size = 48, cat, style = {} }) => {
+  const colors = ['#4f46e5', '#7c3aed', '#ec4899', '#f59e0b', '#22c55e', '#06b6d4', '#ef4444', '#8b5cf6']
+  const getColor = () => {
+    if (!cat) return colors[0]
+    const hash = (cat.name || '').split('').reduce((a, c) => a + c.charCodeAt(0), 0)
+    return colors[hash % colors.length]
+  }
+  const bgColor = getColor()
+  const iconSize = Math.floor(size * 0.5)
+  return (
+    <div style={{ width: size, height: size, borderRadius: size * 0.25, background: `linear-gradient(135deg, ${bgColor}, ${bgColor}dd)`, display: 'flex', alignItems: 'center', justifyContent: 'center', color: 'white', flexShrink: 0, ...style }}>
+      <svg width={iconSize} height={iconSize} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M12 5c.67 0 1.35.09 2 .26 1.78-2 5.03-2.84 6.42-2.26 1.4.58-.42 7-.42 7 .57 1.07 1 2.24 1 3.44C21 17.9 16.97 21 12 21s-9-3.1-9-7.56c0-1.25.5-2.4 1-3.44 0 0-1.89-6.42-.5-7 1.39-.58 4.72.23 6.5 2.23A9.04 9.04 0 0112 5z"/></svg>
+    </div>
+  )
+}
+
 const ChevronDown = () => <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M6 9l6 6 6-6"/></svg>
 
 function CustomDropdown({ value, options, onChange, placeholder, theme: t }) {
@@ -226,7 +243,7 @@ export default function Home({ onNavigate }) {
               <div style={{ display: 'flex', gap: '10px', marginBottom: '16px', flexWrap: 'wrap' }}>
                 {cats.map(cat => (
                   <div key={cat.id} onClick={() => selectCat(cat.id)} style={{ display: 'flex', alignItems: 'center', gap: '8px', padding: '8px 12px', background: cat.active ? 'white' : 'rgba(255,255,255,0.6)', borderRadius: '10px', cursor: 'pointer', border: cat.active ? '2px solid #4f46e5' : '2px solid transparent' }}>
-                    <img src={cat.img} alt={cat.name} style={{ width: '28px', height: '28px', borderRadius: '8px', objectFit: 'cover' }} />
+                    <CatAvatar size={28} cat={cat} />
                     <span style={{ fontSize: '13px', fontWeight: '600', color: '#1e293b' }}>{cat.name}</span>
                   </div>
                 ))}
@@ -235,14 +252,14 @@ export default function Home({ onNavigate }) {
 
               <button onClick={() => onNavigate('schedule')} style={{ background: '#1e293b', color: 'white', border: 'none', padding: '10px 18px', borderRadius: '10px', fontSize: '13px', fontWeight: '600', cursor: 'pointer', display: 'flex', alignItems: 'center', gap: '6px' }}><CalendarIcon /> View Schedule</button>
             </div>
-            <img src={activeCat?.img} alt="Cat" style={{ position: 'absolute', right: '20px', top: '50%', transform: 'translateY(-50%)', width: '140px', height: '140px', objectFit: 'cover', borderRadius: '50%', border: '4px solid white', boxShadow: '0 8px 25px rgba(0,0,0,0.15)' }} />
+            <CatAvatar size={140} cat={activeCat} style={{ position: 'absolute', right: '20px', top: '50%', transform: 'translateY(-50%)', border: '4px solid white', boxShadow: '0 8px 25px rgba(0,0,0,0.15)', borderRadius: '50%' }} />
           </div>
 
           {/* Pet Info Card */}
           {activeCat && (
             <div style={{ background: theme.card, borderRadius: '14px', padding: '16px', marginBottom: '20px', border: `1px solid ${theme.border}` }}>
               <div style={{ display: 'flex', alignItems: 'center', gap: '12px', marginBottom: '14px' }}>
-                <img src={activeCat.img} alt={activeCat.name} style={{ width: '48px', height: '48px', borderRadius: '12px', objectFit: 'cover' }} />
+                <CatAvatar size={48} cat={activeCat} />
                 <div style={{ flex: 1 }}>
                   <h3 style={{ fontSize: '16px', fontWeight: '700', color: theme.text, margin: 0 }}>{activeCat.name}</h3>
                   <p style={{ fontSize: '12px', color: theme.textMuted, margin: '2px 0 0' }}>{activeCat.breed} • {activeCat.gender}</p>
@@ -352,7 +369,7 @@ export default function Home({ onNavigate }) {
               const age = getCatAge(cat)
               return (
                 <div key={cat.id} onClick={() => selectCat(cat.id)} style={{ display: 'flex', alignItems: 'center', gap: '10px', padding: '10px', background: cat.active ? (darkMode ? '#334155' : '#f0f9ff') : 'transparent', borderRadius: '10px', marginBottom: '6px', cursor: 'pointer', border: cat.active ? '1px solid #4f46e5' : '1px solid transparent' }}>
-                  <img src={cat.img} alt={cat.name} style={{ width: '38px', height: '38px', borderRadius: '10px', objectFit: 'cover' }} />
+                  <CatAvatar size={38} cat={cat} />
                   <div style={{ flex: 1 }}>
                     <p style={{ fontSize: '13px', fontWeight: '600', color: theme.text, margin: 0 }}>{cat.name}</p>
                     <p style={{ fontSize: '11px', color: theme.textMuted, margin: '2px 0 0' }}>{cat.breed} • {age?.display || 'Age unknown'}</p>
