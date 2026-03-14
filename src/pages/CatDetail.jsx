@@ -45,14 +45,14 @@ export default function CatDetail({ cat, onBack, embedded = false }) {
       )}
 
       {/* Main Content - Responsive Layout */}
-      <div className={embedded ? '' : 'cat-detail-container'} style={{ display: 'flex', flexDirection: embedded ? 'row' : 'column', maxWidth: '1200px', margin: '0 auto', gap: embedded ? '24px' : '0' }}>
+      <div className={embedded ? 'cat-detail-embedded' : 'cat-detail-container'} style={{ display: 'flex', flexDirection: 'column', maxWidth: '1200px', margin: '0 auto', gap: '0' }}>
         {/* Image Section */}
-        <div className={embedded ? '' : 'cat-detail-image'} style={{ position: 'relative', flex: embedded ? '0 0 320px' : undefined }}>
-          <img src={cat.img} alt={cat.name} style={{ width: '100%', height: embedded ? '320px' : '320px', objectFit: 'cover', borderRadius: embedded ? '16px' : '0' }} />
+        <div className={embedded ? 'cat-detail-embedded-image' : 'cat-detail-image'} style={{ position: 'relative' }}>
+          <img src={cat.img} alt={cat.name} style={{ width: '100%', height: '320px', objectFit: 'cover', borderRadius: embedded ? '16px' : '0' }} />
         </div>
 
         {/* Content Section */}
-        <div className={embedded ? '' : 'cat-detail-content'} style={{ padding: embedded ? '0' : '20px', marginTop: embedded ? '0' : '-30px', position: 'relative', flex: embedded ? '1' : undefined }}>
+        <div className={embedded ? 'cat-detail-embedded-content' : 'cat-detail-content'} style={{ padding: embedded ? '0' : '20px', marginTop: embedded ? '0' : '-30px', position: 'relative' }}>
           <div style={{ background: theme.card, borderRadius: '20px', padding: '20px', marginBottom: '16px', border: `1px solid ${theme.border}` }}>
             <h1 style={{ fontSize: '24px', fontWeight: '700', color: theme.text, margin: '0 0 4px' }}>{cat.breed}</h1>
             <div style={{ display: 'flex', alignItems: 'center', gap: '8px', marginBottom: '8px' }}>
@@ -163,6 +163,57 @@ export default function CatDetail({ cat, onBack, embedded = false }) {
             }
             .cat-detail-image img {
               height: 500px !important;
+            }
+          }
+        `}</style>
+      )}
+
+      {/* Responsive Styles for Embedded Mode */}
+      {embedded && (
+        <style>{`
+          .cat-detail-embedded {
+            display: flex;
+            flex-direction: column;
+            gap: 0;
+          }
+          .cat-detail-embedded-image {
+            position: relative;
+            width: 100%;
+          }
+          .cat-detail-embedded-image img {
+            width: 100%;
+            height: 280px;
+            object-fit: cover;
+            border-radius: 16px;
+          }
+          .cat-detail-embedded-content {
+            padding: 0;
+            margin-top: 0;
+            position: relative;
+          }
+          @media (min-width: 768px) {
+            .cat-detail-embedded {
+              flex-direction: row;
+              gap: 24px;
+              padding: 0;
+            }
+            .cat-detail-embedded-image {
+              flex: 0 0 320px;
+            }
+            .cat-detail-embedded-image img {
+              height: 320px;
+              border-radius: 16px;
+            }
+            .cat-detail-embedded-content {
+              flex: 1;
+            }
+          }
+          @media (min-width: 1024px) {
+            .cat-detail-embedded-image {
+              flex: 0 0 380px;
+            }
+            .cat-detail-embedded-image img {
+              height: 380px;
             }
           }
         `}</style>
