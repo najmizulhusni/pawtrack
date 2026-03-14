@@ -58,7 +58,15 @@ export default function App() {
   const [isLoggedIn, setIsLoggedIn] = useState(false)
   const [isAdmin, setIsAdmin] = useState(isAdminRoute)
   const [isLoading, setIsLoading] = useState(true)
-  const [page, setPage] = useState('home')
+  const [page, setPageState] = useState(() => {
+    // Load page from localStorage on mount
+    try {
+      const saved = localStorage.getItem('pawtrack_current_page')
+      return saved || 'home'
+    } catch {
+      return 'home'
+    }
+  })
   const [darkMode, setDarkMode] = useState(false)
   const [notifications, setNotifications] = useState([])
   const [showNotifications, setShowNotifications] = useState(false)
@@ -67,6 +75,16 @@ export default function App() {
   const [cats, setCats] = useState([]) // Start with no cats - user must add
   const [user, setUser] = useState({ id: '', name: '', email: '', phone: '', address: '' })
   const [catsLoading, setCatsLoading] = useState(false)
+
+  // Wrapper for setPage that also saves to localStorage
+  const setPage = (newPage) => {
+    setPageState(newPage)
+    try {
+      localStorage.setItem('pawtrack_current_page', newPage)
+    } catch {
+      // localStorage might be disabled
+    }
+  }
 
   const theme = { bg: darkMode ? '#0f172a' : '#f5f7fb', card: darkMode ? '#1e293b' : 'white', text: darkMode ? '#f1f5f9' : '#1e293b', textMuted: darkMode ? '#94a3b8' : '#64748b', border: darkMode ? '#334155' : '#e8ecf4', primary: '#4f46e5' }
 
