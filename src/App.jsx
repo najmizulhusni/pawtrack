@@ -303,6 +303,7 @@ export default function App() {
   
   // Update cat - save to Supabase
   const updateCat = async (id, data) => {
+    console.log('[UPDATE CAT] Updating cat:', id, data)
     const updatedCats = cats.map(c => c.id === id ? { 
       ...c, 
       ...data,
@@ -325,10 +326,15 @@ export default function App() {
         if (data.vaccinated !== undefined) updateData.vaccinated = data.vaccinated
         if (data.neutered !== undefined) updateData.neutered = data.neutered
         
-        const { error } = await supabase.from('cats').update(updateData).eq('id', id)
-        if (error) console.error('Update cat error:', error)
+        console.log('[UPDATE CAT] Supabase update data:', updateData)
+        const { data: result, error } = await supabase.from('cats').update(updateData).eq('id', id).select()
+        if (error) {
+          console.error('[UPDATE CAT] Supabase error:', error)
+        } else {
+          console.log('[UPDATE CAT] Supabase success:', result)
+        }
       } catch (err) {
-        console.error('Update cat error:', err)
+        console.error('[UPDATE CAT] Exception:', err)
       }
     }
   }

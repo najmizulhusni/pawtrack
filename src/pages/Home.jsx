@@ -143,7 +143,7 @@ export default function Home({ onNavigate }) {
     <div style={{ minHeight: '100vh', background: theme.bg }}>
       <header style={{ padding: '16px 24px', display: 'flex', alignItems: 'center', justifyContent: 'space-between', borderBottom: `1px solid ${theme.border}`, background: theme.card }} className="home-header">
         <h1 style={{ fontSize: '20px', fontWeight: '700', color: '#4f46e5', margin: 0, letterSpacing: '-0.3px' }}>PawTrack</h1>
-        <button onClick={() => setShowLogoutConfirm(true)} style={{ display: 'flex', alignItems: 'center', gap: '8px', padding: '8px 14px', borderRadius: '8px', border: 'none', background: 'transparent', color: theme.textMuted, cursor: 'pointer', fontSize: '14px', fontWeight: '500' }}>
+        <button onClick={() => setShowLogoutConfirm(true)} style={{ display: 'flex', alignItems: 'center', gap: '8px', padding: '8px 14px', borderRadius: '8px', border: 'none', background: 'transparent', color: '#ef4444', cursor: 'pointer', fontSize: '14px', fontWeight: '500' }}>
           <LogoutIcon />
           <span>Sign Out</span>
         </button>
